@@ -1,0 +1,30 @@
+.field {
+	display: flex;
+	flex-direction: column;
+}
+
+.field__label {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.field__input {
+	display: block;
+	border: 1px solid #ededed;
+	border-radius: 4px;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 18px;
+	height: 60px;
+	line-height: 60px;
+	padding: 0 10px;
+}
+
+.field__input:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.field.error .field__input {
+	border-color: red;
+}
