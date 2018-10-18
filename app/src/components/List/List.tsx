@@ -9,16 +9,6 @@ interface IProps {
 	items: object[];
 }
 
-interface IItemProps {
-	_id: string;
-	name: string;
-	link: string;
-	image: string;
-	category: string;
-	assigned: string;
-	price: number;
-}
-
 export default (props: IProps) => {
 	return (
 		<div className="list">
@@ -47,14 +37,26 @@ export default (props: IProps) => {
 	)
 }
 
+interface IItemProps {
+	_id: string;
+	name: string;
+	link: string;
+	image: string;
+	category: string;
+	assigned: string;
+	price: number;
+}
+
 interface IItemState {
 	assigned: string;
 	open: boolean;
 }
 
-class ListItem extends React.Component<IItemProps, IItemState> {
-	private input: HTMLInputElement | null;
+interface ISubmitValue {
+	assigned: string | undefined;
+}
 
+class ListItem extends React.Component<IItemProps, IItemState> {
 	constructor(props: IItemProps) {
 		super(props)
 		this.state = {
@@ -68,9 +70,10 @@ class ListItem extends React.Component<IItemProps, IItemState> {
 
 	public render() {
 		const { image, name, link, price, category } = this.props;
-
 		if (this.state.open) {
 			document.body.classList.add('noise');
+		} else {
+			document.body.classList.remove('noise');
 		}
 
 		return (
@@ -96,16 +99,12 @@ class ListItem extends React.Component<IItemProps, IItemState> {
 								Забронировать
 							</Button>
 							<div className={`list__assign-form ${this.state.open ? '' : 'hidden'}`}>
-								{/* <input type="text" ref={input => this.input = input} className={`list__assignInput`}/>
-								<div className="list__assign-form-buttons">
-									<button onClick={() => this.onSubmit(this.props)} className="list__assignBtnSave" />
-									<Button onClick={() => this.onSubmit(this.props)}>Сохоранить</Button>
-								</div> */}
 								<Form
-									onSubmit={() => this.onSubmit(this.props)}
+									onSubmit={this.onSubmit}
+									submitButton={true}
+									cancelButton={true}
 								>
-									<input type="hidden" />
-									<input type="text" ref={input => this.input = input} className={`list__assignInput`}/>
+									<input type="text" name="assigned" className={`list__assignInput`}/>
 								</Form>
 							</div>
 							</div>
@@ -119,13 +118,15 @@ class ListItem extends React.Component<IItemProps, IItemState> {
 		this.setState({open: !this.state.open});
 	}
 
-	private onSubmit(props: IItemProps) {
-		this.assignWish(Object.assign({}, props, {assigned: this.input && this.input.value}))
+	private onSubmit(value: ISubmitValue) {
+		console.log(value, this.props);
+
+		this.assignWish(Object.assign({}, this.props, {assigned: value.assigned}))
 
 	}
 
 	private assignWish(props: IItemProps) {
-		fetch(`http://localhost:8000/wishes/${props._id}`, {
+		fetch(`http://localhost:8888/wishes/${props._id}`, {
 			body: JSON.stringify(props),
 			headers: {
 				'Content-Type': 'application/json'
@@ -133,13 +134,14 @@ class ListItem extends React.Component<IItemProps, IItemState> {
 			method: 'PUT',
 		})
 		.then(res => {
-			console.log('res', res)
+			// console.log('res', res)
 			return res.json()
 		})
 		.then(data => {
 			console.log('data', data);
 
-			if (data) {
+			if (data.assigned) {
+				console.log(data.assigned)
 				this.toggleControl();
 				this.setState({assigned: data.assigned})
 			}

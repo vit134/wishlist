@@ -25,3 +25,7 @@
 	background-color: #eee;
 	color: #222;
 }
+
+.button + .button {
+	margin-left: 20px;
+}

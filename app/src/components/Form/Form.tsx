@@ -7,7 +7,7 @@ import Button from '../Button/Button';
 import './Form.css';
 
 interface IProps {
-	children: JSX.Element[];
+	children: JSX.Element[] | JSX.Element;
 	onSubmit: (e?: object) => void;
 	title?: string;
 	submitButton?: boolean;
@@ -64,15 +64,25 @@ export default class Form extends React.Component<IProps, IState> {
 		const vals: object = this.getFormFields();
 		let validate: boolean = true;
 
-		this.props.children.forEach((el, i) => {
+		interface IChildProps {
+			required: boolean;
+			name: string;
+		}
+
+		React.Children.forEach(this.props.children, (el, i) => {
+			if (!React.isValidElement(el)) {
+				return
+			}
+			const { required, name } = el.props as IChildProps
 			const field = ReactDom.findDOMNode(this.refs[i]) as Element;
 
-			if (el.props.required && vals[el.props.name] === '') {
+			if (required && vals[name] === '') {
 				field.classList.add('error');
 				validate = false;
 			} else {
 				field.classList.remove('error');
 			}
+
 		})
 
 		return validate;
@@ -114,24 +124,26 @@ export default class Form extends React.Component<IProps, IState> {
 						);
 					})
 				}
-				{
-					this.props.submitButton || this.props.submitButtonText &&
-						<Button
-							type="submit"
-							disabled={!this.state.valid}
-						>
-							{this.props.submitButtonText || 'Сохранить'}
-						</Button>
-				}
-				{
-					this.props.cancelButton || this.props.cancelButtonText &&
-						<Button
-							disabled={!this.state.valid}
-							onClick={this.onCancel}
-						>
-							{this.props.cancelButtonText || 'Отмена'}
-						</Button>
-				}
+				<div className="form__footer">
+					{
+						(this.props.cancelButton || this.props.cancelButtonText) &&
+							<Button
+								disabled={!this.state.valid}
+								onClick={this.onCancel}
+							>
+								{this.props.cancelButtonText || 'Отмена'}
+							</Button>
+					}
+					{
+						(this.props.submitButton || this.props.submitButtonText) &&
+							<Button
+								type="submit"
+								disabled={!this.state.valid}
+							>
+								{this.props.submitButtonText || 'Сохранить'}
+							</Button>
+					}
+				</div>
 			</form>
 		);
 	}

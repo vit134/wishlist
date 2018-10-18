@@ -65,7 +65,7 @@ class App extends React.Component<object, IState> {
     }
 
     private addWish(values?: object) {
-        fetch(`http://localhost:8000/wishes`, {
+        fetch(`http://localhost:8888/wishes`, {
 			body: JSON.stringify(values),
 			headers: {
 				'Content-Type': 'application/json'

@@ -18,7 +18,7 @@ export default class WishList extends React.Component<IProps, IState> {
 	}
 
 	public componentWillMount() {
-		fetch('http://localhost:8000/wishes', {
+		fetch('http://localhost:8888/wishes', {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export default class WishList extends React.Component<IProps, IState> {
 			return res.json()
 		})
 		.then(data => {
-			// console.log('data',data);
+			console.log('data',data);
 			this.setState({items: data});
 		})
 		.catch(e => {

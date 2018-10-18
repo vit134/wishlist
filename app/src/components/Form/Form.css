@@ -3,7 +3,6 @@
 	flex-direction: column;
 	background: #fff;
 	border-radius: 10px;
-	min-height: 350px;
 	min-width: 400px;
 	max-width: 70%;
 	padding: 30px;
@@ -13,8 +12,22 @@
 	margin-bottom: 20px;
 }
 
+.form__row input[type=hidden] {
+	margin: 0;
+}
+
+.form__row:last-child {
+	margin-bottom: 0;
+}
+
 .form__title {
 	display: block;
 	font-size: 30px;
 	margin-bottom: 20px;
+}
+
+.form__footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
 }
