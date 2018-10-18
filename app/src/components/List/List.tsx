@@ -119,8 +119,6 @@ class ListItem extends React.Component<IItemProps, IItemState> {
 	}
 
 	private onSubmit(value: ISubmitValue) {
-		console.log(value, this.props);
-
 		this.assignWish(Object.assign({}, this.props, {assigned: value.assigned}))
 
 	}
@@ -138,7 +136,7 @@ class ListItem extends React.Component<IItemProps, IItemState> {
 			return res.json()
 		})
 		.then(data => {
-			console.log('data', data);
+			// console.log('data', data);
 
 			if (data.assigned) {
 				console.log(data.assigned)
