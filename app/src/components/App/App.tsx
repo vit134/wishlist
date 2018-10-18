@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './App.css';
-import './Modal.css';
 
 import Header from '../Header/Header';
 import Form from '../Form/Form';
+import Overlay from '../Overlay/Overlay';
 
 import { FieldInput } from '../Fields/Fields';
 
@@ -33,15 +33,14 @@ class App extends React.Component<object, IState> {
                         <WishList />
                     </div>
                 </main>
-
-                <div className={`modal ${this.state.modalOpen ? 'modal_visible' : ''}`}>
+                <Overlay>
                     <Form title="Добавьте информацию о wish'ке" onSubmit={this.addWish} submitButtonText="Добавить">
                         <FieldInput name="name" label="Название" required={true}/>
                         <FieldInput name="link" label="Ссылка" />
                         <FieldInput name="image" label="Ссылка картинку" />
                         <FieldInput name="price" label="Цена" type="number" required={true} />
                     </Form>
-                </div>
+                </Overlay>
             </div>
         );
     }

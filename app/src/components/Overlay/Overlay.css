@@ -1,4 +1,4 @@
-.modal {
+.overlay {
 	width: 100%;
 	height: 100vh;
 	background: rgba(0, 0, 0, .7);
@@ -12,6 +12,6 @@
 	justify-content: center;
 }
 
-.modal_visible {
+.overlay_visible {
 	display: flex;
 }
