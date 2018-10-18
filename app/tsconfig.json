@@ -27,5 +27,10 @@
     "webpack",
     "jest",
     "src/setupTests.ts"
-  ]
+  ],
+  "rules": {
+    "no-angle-bracket-type-assertion": false,
+    "no-console": false,
+    "ordered-imports": false
+  }
 }

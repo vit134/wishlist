@@ -26,6 +26,6 @@ function list(state = [], action) {
 }
 
 export default combineReducers({
-	navOpen,
-	list
+	list,
+	navOpen
 });

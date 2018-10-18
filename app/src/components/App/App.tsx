@@ -1,15 +1,11 @@
 import * as React from 'react';
 import './App.css';
-import './header.css';
-import './Logo.css';
 import './Modal.css';
 
-import Button from '../Button/Button';
+import Header from '../Header/Header';
 import Form from '../Form/Form';
 
 import { FieldInput } from '../Fields/Fields';
-
-import logo from './logo.svg';
 
 import WishList from '../Wishlist/Wishlist';
 
@@ -31,21 +27,7 @@ class App extends React.Component<object, IState> {
     public render() {
         return (
             <div className={`page ${this.state.modalOpen ? 'page_overflow' : ''}`}>
-                <header className="page__header header">
-                    <div className="header__inner">
-                        <div className="header__col">
-                            <div className="logo">
-                                <img src={logo} alt="logo"/>
-                            </div>
-                            <div className="header__title">
-                                WishList
-                            </div>
-                        </div>
-                        <div className="header__col">
-                            <Button type={'add'} onClick={this.toggleModal}>Добавить</Button>
-                        </div>
-                    </div>
-                </header>
+                <Header />
                 <main className="page__content content">
                     <div className="content__inner">
                         <WishList />
