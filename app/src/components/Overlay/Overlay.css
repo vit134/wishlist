@@ -15,3 +15,28 @@
 .overlay_visible {
 	display: flex;
 }
+
+.overlay__close {
+	position: absolute;
+	display: flex;
+	top: 30px;
+	right: 30px;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: #fff;
+	color: #222;
+	font-weight: bold;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.overlay__close:hover {
+	background: red;
+	color: #fff;
+}
+
+.overlay__close:active {
+	transform: scale(.96);
+}

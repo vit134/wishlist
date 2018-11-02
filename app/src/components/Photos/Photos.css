@@ -1,0 +1,38 @@
+.photos {
+	padding: 30px;
+}
+.photos__inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.photo {
+	display: block;
+	width: 240px;
+	background: #fff;
+	padding: 10px;
+}
+
+.photo__image-wrapper {
+	position: relative;
+}
+
+.photo__image-wrapper img {
+	max-width: 100%;
+}
+
+.photo__likes {
+	display: flex;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	width: 55px;
+	height: 55px;
+	background: url('./heart.svg') center no-repeat;
+	background-size: 100%;
+	line-height: 60px;
+	justify-content: center;
+	color: #222;
+}
