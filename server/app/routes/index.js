@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
+var Wishes = require('../models/wishes');
 var router = express.Router();
 
 router.get('/', function (req, res) {
@@ -36,6 +37,26 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
 router.get('/logout', function(req, res) {
     req.logout();
     res.send({user: req.user})
+});
+
+router.get('/wishes', function (req, res) {
+    let request = {
+        error: false,
+    }
+    console.log(req.user)
+    Wishes.find(function (err, wishes) {
+        if (err) {
+            request.error = err;
+        }
+
+        request.body = wishes
+        res.send(request);
+    });
+});
+
+router.post('/wishes', function (req, res) {
+    const item = new Wishes({...req.body, userId: req.user.id})
+    item.save().then((data) => res.send(data));
 });
 
 module.exports = router;

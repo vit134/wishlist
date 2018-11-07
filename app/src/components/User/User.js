@@ -30,7 +30,7 @@ export default class User extends React.Component {
         } else {
             if (!isLogin) {
                 return (
-                    <button className="btn" onClick={() => toggleOverlay(<RegForm/>)}>
+                    <button className="btn" onClick={() => toggleOverlay(<RegForm/>, true)}>
                         Войти
                     </button>
                 )

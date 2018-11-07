@@ -16,6 +16,10 @@
 	display: flex;
 }
 
+.overlay_transparent {
+	background: transparent;
+}
+
 .overlay__close {
 	position: absolute;
 	display: flex;

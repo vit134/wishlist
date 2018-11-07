@@ -11,7 +11,8 @@ var LocalStrategy = require('passport-local').Strategy;
 const PORT = 8888;
 
 var routes = require('./app/routes/index');
-var users = require('./app/routes/users');
+var wishes = require('./app/routes/wishes');
+//var users = require('./app/routes/users');
 
 var app = express();
 
@@ -54,6 +55,7 @@ var Account = require('./app/models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
+
 
 // mongoose
 mongoose.connect(require('./config/db').url);
