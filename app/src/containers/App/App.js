@@ -26,10 +26,12 @@ class App extends Component {
                     registration={registration}
                     logout={logout}
                     overlay={{...overlay, toggleOverlay}}
-            />
+                />
             </header>,
             <main>
-                {/* <Page {...page} {...this.props.pageActions} /> */}
+                <div className="container">
+                    <Page {...page} {...this.props.pageActions} />
+                </div>
             </main>,
             <Overlay { ...overlay} toggleOverlay = {toggleOverlay}/>
         ]);

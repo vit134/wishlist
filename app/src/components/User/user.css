@@ -18,15 +18,15 @@
 }
 
 .user__dropdown {
-	display: none;
+	/* display: none;
 	position: absolute;
     top: calc(100% + 10px);
     right: 0;
     background: #fff;
-    border-radius: 4px;
+    border-radius: 4px; */
     min-width: 200px;
-    padding: 20px;
-    box-shadow: 0 0 10px #eee;
+    /* padding: 20px;
+    box-shadow: 0 0 10px #eee; */
 }
 
 .user__dropdown_visible {
@@ -35,6 +35,11 @@
 
 .user__row {
 	padding: 15px 10px;
+}
+
+.user__row_btns {
+	display: flex;
+	flex-direction: column;
 }
 
 .user__row:last-child {

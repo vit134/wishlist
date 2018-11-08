@@ -2,6 +2,7 @@ import React from 'react';
 import './user.css';
 
 import RegForm from '../../containers/Forms/RegFromContainer';
+import Tooltip from '../Tooltip/Tooltip';
 
 import Preloader from '../Preloader/Preloader';
 
@@ -15,10 +16,34 @@ export default class User extends React.Component {
         }
 
         this.toggleInfo = this.toggleInfo.bind(this);
+        this.renderTooltip = this.renderTooltip.bind(this);
     }
 
-    toggleInfo() {
-        this.setState({dropdownOpen: !this.state.dropdownOpen})
+    toggleInfo(e) {
+        var box = e.target.getBoundingClientRect();
+        const position = {
+            right: document.documentElement.clientWidth -  box.right,
+            top: box.top + window.pageYOffset + box.height + 10
+        };
+        const tooltip = this.renderTooltip(position);
+        const { toggleOverlay } = this.props.overlay;
+        toggleOverlay(tooltip, true);
+    }
+
+    renderTooltip(position) {
+        const { username } = this.props.user.user_info;
+        return(
+            <Tooltip position={position}>
+                <div className={`user__dropdown ${this.state.dropdownOpen ? 'user__dropdown_visible' : '' }`}>
+                    <div className="user__row">{username}</div>
+                    <div className="user__row">
+                        <button className="btn" onClick={this.props.logout}>
+                            Выйти
+                        </button>
+                    </div>
+                </div>
+            </Tooltip>
+        )
     }
 
     renderTemplate = () => {
@@ -30,27 +55,18 @@ export default class User extends React.Component {
         } else {
             if (!isLogin) {
                 return (
-                    <button className="btn" onClick={() => toggleOverlay(<RegForm/>, true)}>
+                    <button className="btn" onClick={() => toggleOverlay(<RegForm/>)}>
                         Войти
                     </button>
                 )
             } else {
-                const { username, lastname, firstname } = user_info;
+                const { lastname, firstname } = user_info;
                 return (
                     <div className="user">
                         Привет,{' '}
                         <div className="user__info">
                             <span className="user__title" onClick={this.toggleInfo}>{firstname} {lastname}</span>
-                            <div className={`user__dropdown ${this.state.dropdownOpen ? 'user__dropdown_visible' : '' }`}>
-                                <div className="user__row">{username}</div>
-                                <div className="user__row">
-                                    <button className="btn" onClick={this.props.logout}>
-                                        Выйти
-                                    </button>
-                                </div>
-                            </div>
                         </div>
-                        !
                     </div>
                 )
             }

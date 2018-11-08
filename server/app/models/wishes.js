@@ -5,6 +5,9 @@ var Wishes = new Schema({
     userId: String,
     name: String,
     link: String,
+	image: String,
+	tags: [String],
+	assigned: String
 });
 
 class WishesClass {

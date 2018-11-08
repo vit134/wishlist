@@ -7,7 +7,47 @@ export const GET_PHOTOS_BY_YEAR = 'GET_PHOTOS_BY_YEAR';
 
 export const SORT_BY_LIKES = 'SORT_BY_LIKES';
 
-export function getPhotos(year) {
+
+export const GET_WHISHES_REQUEST = 'GET_WHISHES_REQUEST';
+export const GET_WHISHES_SUCCESS = 'GET_WHISHES_SUCCESS';
+export const GET_WHISHES_ERROR = 'GET_WHISHES_ERROR';
+
+export function getWhishes() {
+    return dispatch => {
+        dispatch({
+            type: GET_WHISHES_REQUEST
+        });
+
+        fetch(`http://localhost:8888/wishes`, {
+            method: 'GET',
+            headers: {
+				'Content-Type': 'application/json'
+			},
+            credentials: 'include'
+        })
+		.then(res => {
+			//console.log('res', res)
+			return res.json()
+		})
+		.then(data => {
+            //console.log('success', data);
+            dispatch({
+                type: GET_WHISHES_SUCCESS,
+                payload: data
+            });
+		})
+		.catch(e => {
+            //console.log('error', e);
+            dispatch({
+                type: GET_WHISHES_ERROR,
+                error: true,
+                payload: new Error('Ошибка загрузки вишек')
+            });
+		});
+    }
+}
+
+/* export function getPhotos(year) {
     return dispatch => {
         dispatch({
             type: GET_PHOTOS_REQUEST,
@@ -47,3 +87,4 @@ export function sortByLikes() {
         type: SORT_BY_LIKES
     };
 }
+ */

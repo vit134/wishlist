@@ -1,25 +1,22 @@
 import {
-    GET_PHOTOS_REQUEST,
+   /*  GET_PHOTOS_REQUEST,
     GET_PHOTOS_SUCCESS,
     GET_PHOTOS_ERROR,
     GET_PHOTOS_BY_YEAR,
-    SORT_BY_LIKES
+    SORT_BY_LIKES, */
+    GET_WHISHES_REQUEST,
+    GET_WHISHES_SUCCESS,
+    GET_WHISHES_ERROR
 } from '../actions/PageActions';
 
 const initialState = {
-    year: new Date().getFullYear(),
-    years: [],
-    allPhotos: {},
-    currentPhotos: [],
-    error: '',
     isFetching: false,
-    sorting: {
-        likes: true
-    }
+    error: false,
+    data: []
 };
 
 export function pageReducer(state = initialState, action) {
-    function sortByLikes(a, b) {
+    /* function sortByLikes(a, b) {
         let result;
         if (state.sorting.likes) {
             result = b.likes.count - a.likes.count;
@@ -27,9 +24,20 @@ export function pageReducer(state = initialState, action) {
             result = a.likes.count - b.likes.count;
         }
         return result;
-    }
+    } */
 
     switch (action.type) {
+        case GET_WHISHES_REQUEST:
+            return { ...state, isFetching: true }
+        case GET_WHISHES_SUCCESS:
+            return { ...state, data: action.payload, isFetching: false }
+        case GET_WHISHES_ERROR:
+            return { ...state, isFetching: false, err: action.error }
+        default:
+            return { ...state };
+    }
+
+    /* switch (action.type) {
         case GET_PHOTOS_REQUEST:
             return { ...state, isFetching: true };
         case GET_PHOTOS_SUCCESS:
@@ -89,5 +97,5 @@ export function pageReducer(state = initialState, action) {
             };
         default:
             return state;
-    }
+    } */
 }

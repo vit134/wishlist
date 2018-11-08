@@ -40,22 +40,35 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/wishes', function (req, res) {
+    if (!req.user) res.send({error: true, message: 'no user'})
+    const userId = String(req.user._id);
     let request = {
         error: false,
+        userId
     }
-    console.log(req.user)
-    Wishes.find(function (err, wishes) {
+
+    Wishes.find({userId}, function (err, wishes) {
         if (err) {
             request.error = err;
         }
 
-        request.body = wishes
+        request.body = wishes;
+
         res.send(request);
     });
 });
 
 router.post('/wishes', function (req, res) {
-    const item = new Wishes({...req.body, userId: req.user.id})
+    let body = {
+        userId: '5bdc001e15c9c477ec514bbd',
+        name: 'какая то хрень',
+        link: 'http://huipizda-i-dgagurda.ru?asdsad=123&asdas=1',
+        image: 'http://huipizda-i-dgagurda.ru?asdsad=123&asdas=1',
+        tags: ['tag1', 'tag2', 'tag3'],
+        assigned: ''
+    }
+
+    const item = new Wishes({...body})
     item.save().then((data) => res.send(data));
 });
 
