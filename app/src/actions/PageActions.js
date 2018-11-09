@@ -12,6 +12,10 @@ export const GET_WHISHES_REQUEST = 'GET_WHISHES_REQUEST';
 export const GET_WHISHES_SUCCESS = 'GET_WHISHES_SUCCESS';
 export const GET_WHISHES_ERROR = 'GET_WHISHES_ERROR';
 
+export const ADD_WHISHES_REQUEST = 'ADD_WHISHES_REQUEST';
+export const ADD_WHISHES_SUCCESS = 'ADD_WHISHES_SUCCESS';
+export const ADD_WHISHES_ERROR = 'ADD_WHISHES_ERROR';
+
 export function getWhishes() {
     return dispatch => {
         dispatch({
@@ -40,6 +44,42 @@ export function getWhishes() {
             //console.log('error', e);
             dispatch({
                 type: GET_WHISHES_ERROR,
+                error: true,
+                payload: new Error('Ошибка загрузки вишек')
+            });
+		});
+    }
+}
+
+export function addWish(data) {
+    return dispatch => {
+        dispatch({
+            type: ADD_WHISHES_REQUEST
+        });
+
+        fetch(`http://localhost:8888/wishes`, {
+            method: 'POST',
+            headers: {
+				'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        })
+		.then(res => {
+			//console.log('res', res)
+			return res.json()
+		})
+		.then(data => {
+            //console.log('success', data);
+            dispatch({
+                type: ADD_WHISHES_SUCCESS,
+                payload: data
+            });
+		})
+		.catch(e => {
+            //console.log('error', e);
+            dispatch({
+                type: ADD_WHISHES_ERROR,
                 error: true,
                 payload: new Error('Ошибка загрузки вишек')
             });

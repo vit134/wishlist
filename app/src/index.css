@@ -86,11 +86,14 @@ h3 {
 }
 
 header {
+  border-bottom: 1px solid #eee;
+}
+
+header .container{
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 80px;
-  border-bottom: 1px solid #eee;
   padding: 0 30px;
 }
 

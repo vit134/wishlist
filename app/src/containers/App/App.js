@@ -19,18 +19,20 @@ class App extends Component {
 
         return ([
             <header>
-                <Logo />
-                <User
-                    user={user}
-                    checkLogin={checkLogin}
-                    registration={registration}
-                    logout={logout}
-                    overlay={{...overlay, toggleOverlay}}
-                />
+                <div className="container">
+                    <Logo />
+                    <User
+                        user={user}
+                        checkLogin={checkLogin}
+                        registration={registration}
+                        logout={logout}
+                        overlay={{...overlay, toggleOverlay}}
+                    />
+                </div>
             </header>,
             <main>
                 <div className="container">
-                    <Page {...page} {...this.props.pageActions} />
+                    <Page {...page} {...this.props.pageActions} {...this.props.overlayActions}/>
                 </div>
             </main>,
             <Overlay { ...overlay} toggleOverlay = {toggleOverlay}/>

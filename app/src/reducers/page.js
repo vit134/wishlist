@@ -6,7 +6,10 @@ import {
     SORT_BY_LIKES, */
     GET_WHISHES_REQUEST,
     GET_WHISHES_SUCCESS,
-    GET_WHISHES_ERROR
+    GET_WHISHES_ERROR,
+    ADD_WHISHES_REQUEST,
+    ADD_WHISHES_SUCCESS,
+    ADD_WHISHES_ERROR
 } from '../actions/PageActions';
 
 const initialState = {
@@ -32,6 +35,16 @@ export function pageReducer(state = initialState, action) {
         case GET_WHISHES_SUCCESS:
             return { ...state, data: action.payload, isFetching: false }
         case GET_WHISHES_ERROR:
+            return { ...state, isFetching: false, err: action.error }
+        case ADD_WHISHES_REQUEST:
+            return { ...state, isFetching: true }
+        case ADD_WHISHES_SUCCESS:
+            return {
+                ...state,
+                data: Object.assign({}, state.data, {body: state.data.body.concat(action.payload)}),
+                isFetching: false
+            }
+        case ADD_WHISHES_ERROR:
             return { ...state, isFetching: false, err: action.error }
         default:
             return { ...state };

@@ -1,33 +1,23 @@
 import React, { Component } from 'react';
 
-import Photos from '../Photos/Photos';
+import List from '../List/List';
 import Filters from '../Filters/Filters';
 
 export default class Page extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props)
         this.props.getWhishes();
-    }
 
-    renderPhotos() {
-        if (this.props.data.body) {
-            console.log(this.props.data.body);
-            return this.props.data.body.map(el => {
-                return(
-                    <div>{el.name}</div>
-                )
-            });
-        }
+        console.log(this.props);
     }
 
     render() {
-        console.log(this.props)
         const { isFetching } = this.props;
         return (
             <div className="ib page">
-                {!isFetching ? (
-                    this.renderPhotos()
+                {!isFetching && this.props.data.body ? (
+                    [<Filters toggleOverlay={this.props.toggleOverlay} addWish={this.props.addWish}/>,
+                    <List data={this.props.data.body} />]
                 ) : (
                     <p>Загрузка...</p>
                 )}

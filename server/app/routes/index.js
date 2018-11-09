@@ -60,14 +60,10 @@ router.get('/wishes', function (req, res) {
 
 router.post('/wishes', function (req, res) {
     let body = {
-        userId: '5bdc001e15c9c477ec514bbd',
-        name: 'какая то хрень',
-        link: 'http://huipizda-i-dgagurda.ru?asdsad=123&asdas=1',
-        image: 'http://huipizda-i-dgagurda.ru?asdsad=123&asdas=1',
-        tags: ['tag1', 'tag2', 'tag3'],
-        assigned: ''
+        ...req.body,
+        userId: String(req.user._id)
     }
-
+    console.log(body)
     const item = new Wishes({...body})
     item.save().then((data) => res.send(data));
 });
