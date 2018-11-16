@@ -28,12 +28,12 @@ export function checkLogin() {
             credentials: 'include'
         })
 		.then(res => {
-			console.log('res', res)
+			//console.log('res', res)
 			return res.json()
 		})
 		.then(data => {
             //console.log('success', data);
-            dispatch({
+            return dispatch({
                 type: IS_LOGIN_SUCCESS,
                 payload: data
             });
@@ -105,6 +105,11 @@ export function login(data) {
 		})
 		.then(data => {
             //console.log('success', data);
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: data
+            });
+
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: data

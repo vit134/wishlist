@@ -35,7 +35,9 @@ body {
   max-width: 1400px;
   min-width: 1000px;
   margin: 0 auto;
+  padding: 0 30px;
 }
+
 ol, ul {
   list-style: none;
 }
@@ -100,10 +102,6 @@ header .container{
 main {
 }
 
-.filters {
-  padding: 30px 30px;
-  border-bottom: 1px solid #eee;
-}
 
 label {
   margin-right: 20px;

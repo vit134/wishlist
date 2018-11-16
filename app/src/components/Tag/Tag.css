@@ -9,8 +9,9 @@
 	color: #fff;
 	border-radius: 4px;
 	cursor: pointer;
+	margin-right: 10px;
 }
 
-.tag + .tag {
-	margin-left: 10px;
+.tag:nth-child(n + 5) {
+	margin-top: 10px;
 }

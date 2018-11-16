@@ -15,7 +15,7 @@ export default class Page extends Component {
         const { isFetching } = this.props;
         return (
             <div className="ib page">
-                {!isFetching && this.props.data.body ? (
+                {!isFetching ? (
                     [<Filters toggleOverlay={this.props.toggleOverlay} addWish={this.props.addWish}/>,
                     <List data={this.props.data.body} />]
                 ) : (
