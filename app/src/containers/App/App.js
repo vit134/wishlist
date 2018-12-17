@@ -14,7 +14,7 @@ import * as overlayActions from '../../actions/OverlayActions';
 
 import './App.css';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 class App extends Component {
     componentDidMount() {

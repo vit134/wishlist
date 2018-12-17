@@ -10,14 +10,14 @@ export default class Overlay extends React.Component {
 
 	toggle(e) {
 		if (e.target.classList.contains('overlay')) {
-			this.props.toggleOverlay();
+			this.props.overlayActions.toggleOverlay();
 		}
 	}
 
 	render() {
 		const { open, content = '', transparent} = this.props.overlay;
 		const { toggleOverlay } = this.props.overlayActions
-		console.log(open);
+
 		return(
 			<div
 				className={`overlay ${open ? 'overlay_visible' : ''} ${transparent ? 'overlay_transparent' : ''}`}

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Tag, Icon } from 'antd';
+
 import './Tag.css';
 
 export default class Tags extends React.Component {
@@ -27,20 +29,18 @@ export default class Tags extends React.Component {
 		if (!this.state.more && tags.length > 3) {
 			tags = this.props.tags
 				.filter((el, i) => i < 3)
-				.map((el, i) => el.length > 0 && <Tag key={i} name={el}/>);
+				.map((el, i) => el.length > 0 && <MyTag key={i} name={el}/>);
 			if (this.props.tags.length > 3) {
-				tags.push(<span className="tag tag_more" onClick={this.openMore}>...</span>)
+				tags.push(<Tag key="4" onClick={this.openMore}><Icon type="ellipsis" /></Tag>)
 			}
 		} else {
-			tags = this.props.tags.map((el, i) => el.length > 0 && <Tag key={i} name={el}/>);
+			tags = this.props.tags.map((el, i) => el.length > 0 && <MyTag key={i} name={el}/>);
 		}
 
 		return tags;
 	}
 
 	render() {
-		const { tags } = this.tags;
-
 		return (
 			<div className="tags" ref={this.container}>
 				{
@@ -51,6 +51,6 @@ export default class Tags extends React.Component {
 	}
 }
 
-const Tag = ({name, onClick}) => {
-	return <span className="tag" onClick={onClick ? onClick : () => {}}>{name}</span>
+const MyTag = ({name, onClick}) => {
+	return <Tag onClick={onClick ? onClick : () => {}}>{name}</Tag>
 }

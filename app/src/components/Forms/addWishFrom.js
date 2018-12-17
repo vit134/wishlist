@@ -1,7 +1,7 @@
 import React from 'react'
 import './Forms.css';
 
-import Preloader from '../Preloader/Preloader';
+// import Preloader from '../Preloader/Preloader';
 
 export default class RegForm extends React.Component {
 	constructor(props) {
@@ -11,8 +11,6 @@ export default class RegForm extends React.Component {
 		this.getFields = this.getFields.bind(this);
 
 		this.form = React.createRef();
-
-		console.log(this.props);
 	}
 
 

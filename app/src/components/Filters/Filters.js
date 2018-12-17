@@ -1,18 +1,24 @@
 import React from 'react';
 
 import './Filters.css';
+
+import { Button } from 'antd';
+
 import AddWishForm from '../Forms/addWishFrom';
 
 export default class Filters extends React.Component {
     render() {
+        const { toggleOverlay } = this.props.overlayActions;
+        const { addWish } = this.props.pageActions
+
         return (
             <div className="filters">
-                <button
-                    className="btn"
-                    onClick={() => this.props.toggleOverlay(<AddWishForm addWish={this.props.addWish} />)}
+                <Button
+                    type="primary"
+                    onClick={() => toggleOverlay(<AddWishForm addWish={addWish} />)}
                 >
                     Добавить
-                </button>
+                </Button>
             </div>
         );
     }
