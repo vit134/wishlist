@@ -6,10 +6,6 @@
 .logo__image {
 	width: 50px;
 	height: 50px;
-	background-image: url('./vk.svg');
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: 100%;
 	margin-right: 10px;
 }
 
