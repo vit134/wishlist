@@ -9,7 +9,6 @@ import Preloader from '../Preloader/Preloader';
 export default class User extends React.Component {
     constructor(props) {
         super(props);
-        this.props.checkLogin();
 
         this.state = {
             dropdownOpen: false
@@ -17,6 +16,7 @@ export default class User extends React.Component {
 
         this.toggleInfo = this.toggleInfo.bind(this);
         this.renderTooltip = this.renderTooltip.bind(this);
+        this.logoutHandler = this.logoutHandler.bind(this);
     }
 
     toggleInfo(e) {
@@ -26,7 +26,7 @@ export default class User extends React.Component {
             top: box.top + window.pageYOffset + box.height + 10
         };
         const tooltip = this.renderTooltip(position);
-        const { toggleOverlay } = this.props.overlay;
+        const { toggleOverlay } = this.props.overlayActions;
         toggleOverlay(tooltip, true);
     }
 
@@ -37,7 +37,7 @@ export default class User extends React.Component {
                 <div className={`user__dropdown ${this.state.dropdownOpen ? 'user__dropdown_visible' : '' }`}>
                     <div className="user__row">{username}</div>
                     <div className="user__row">
-                        <button className="btn" onClick={this.props.logout}>
+                        <button className="btn" onClick={this.logoutHandler}>
                             Выйти
                         </button>
                     </div>
@@ -46,16 +46,23 @@ export default class User extends React.Component {
         )
     }
 
+    logoutHandler() {
+        this.props.userActions.logout()
+            .then(() => {
+                this.props.overlayActions.toggleOverlay()
+            })
+    }
+
     renderTemplate = () => {
         const { error, isFetching, isLogin, user_info } = this.props.user;
-        const { toggleOverlay } = this.props.overlay;
+        const { toggleOverlay } = this.props.overlayActions;
 
         if (isFetching) {
             return <Preloader error={error}/>;
         } else {
             if (!isLogin) {
                 return (
-                    <button className="btn" onClick={() => toggleOverlay(<RegForm/>)}>
+                    <button className="btn" onClick={() => toggleOverlay(<RegForm {...this.props}/>)}>
                         Войти
                     </button>
                 )

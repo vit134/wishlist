@@ -16,13 +16,13 @@ export const ADD_WHISHES_REQUEST = 'ADD_WHISHES_REQUEST';
 export const ADD_WHISHES_SUCCESS = 'ADD_WHISHES_SUCCESS';
 export const ADD_WHISHES_ERROR = 'ADD_WHISHES_ERROR';
 
-export function getWhishes() {
+export function getWhishes(user) {
     return dispatch => {
         dispatch({
             type: GET_WHISHES_REQUEST
         });
 
-        fetch(`http://localhost:8888/wishes`, {
+        return fetch(`http://localhost:8888/wishes?user_id=${user._id}`, {
             method: 'GET',
             headers: {
 				'Content-Type': 'application/json'
@@ -39,6 +39,8 @@ export function getWhishes() {
                 type: GET_WHISHES_SUCCESS,
                 payload: data
             });
+
+            return data;
 		})
 		.catch(e => {
             //console.log('error', e);

@@ -10,6 +10,8 @@ export default class RegForm extends React.Component {
 			mode: 'auth'
 		}
 
+		console.log('regform', this.props)
+
 		this.switch = this.switch.bind(this);
 		this.submit = this.submit.bind(this);
 		this.form = React.createRef();
@@ -30,18 +32,24 @@ export default class RegForm extends React.Component {
 	}
 
 	submit(e) {
+		const { login } = this.props.userActions;
+
 		e.preventDefault();
 		let fields = this.getFields();
 		if (this.state.mode === 'reg') {
 			this.props.registration(fields);
 		} else {
-			this.props.login(fields);
+			login(fields)
+				.then((resp) => {
+					this.props.pageActions.getWhishes(resp.user._id);
+				})
+				.catch(e => console.log(e));
 		}
 	}
 
 	componentDidUpdate() {
 		if (!this.props.user.isFetching && this.props.user.user_info.username) {
-			this.props.toggleOverlay();
+			this.props.overlayActions.toggleOverlay();
 		}
 	}
 

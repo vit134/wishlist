@@ -4,20 +4,14 @@ import List from '../List/List';
 import Filters from '../Filters/Filters';
 
 export default class Page extends Component {
-    constructor(props) {
-        super(props);
-        this.props.getWhishes();
-
-        console.log(this.props);
-    }
-
     render() {
-        const { isFetching } = this.props;
+        const { isFetching, page } = this.props;
+        console.log(this.props);
         return (
             <div className="ib page">
                 {!isFetching ? (
                     [<Filters toggleOverlay={this.props.toggleOverlay} addWish={this.props.addWish}/>,
-                    <List data={this.props.data.body} />]
+                    <List data={page.data.body} />]
                 ) : (
                     <p>Загрузка...</p>
                 )}

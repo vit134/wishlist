@@ -12,6 +12,21 @@ import * as overlayActions from '../../actions/OverlayActions';
 import './App.css';
 
 class App extends Component {
+    componentDidMount() {
+        this.clickShowUserEvent();
+    }
+
+    clickShowUserEvent() {
+        const { checkLogin } = this.props.userActions;
+        const { getWhishes } = this.props.pageActions;
+
+        Promise.resolve(checkLogin())
+            .then(function (response) {
+                getWhishes(response);
+                return response;
+            });
+    }
+
     render() {
         const { user, page, overlay } = this.props;
         const { checkLogin, registration, logout } = this.props.userActions;
@@ -21,21 +36,15 @@ class App extends Component {
             <header>
                 <div className="container">
                     <Logo />
-                    <User
-                        user={user}
-                        checkLogin={checkLogin}
-                        registration={registration}
-                        logout={logout}
-                        overlay={{...overlay, toggleOverlay}}
-                    />
+                    <User {...this.props} />
                 </div>
             </header>,
             <main>
                 <div className="container">
-                    <Page {...page} {...this.props.pageActions} {...this.props.overlayActions}/>
+                    <Page  {...this.props}/>
                 </div>
             </main>,
-            <Overlay { ...overlay} toggleOverlay = {toggleOverlay}/>
+            <Overlay { ...this.props}/>
         ]);
     }
 }

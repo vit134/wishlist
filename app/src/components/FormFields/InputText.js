@@ -2,9 +2,6 @@ import React from 'react';
 
 import './InputText.css';
 
-
-import { IconRemoveWhite } from '../Icon/index';
-
 export default class InputText extends React.Component {
 	constructor(props) {
 		super(props)
@@ -44,7 +41,7 @@ export default class InputText extends React.Component {
 					<input ref={this.input} placeholder={placeholder} name={name} type="text" className="input" onChange={this.onChange}/>
 					{
 						this.props.clearButton && this.state.changed &&
-							<span className="input__clear-button" onClick={this.clear}><IconRemoveWhite /></span>
+							<span className="input__clear-button" onClick={this.clear}>{/* <IconRemoveWhite /> */}</span>
 					}
 				</div>
 				{ !this.props.valid &&

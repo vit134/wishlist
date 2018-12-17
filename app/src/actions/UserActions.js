@@ -20,7 +20,7 @@ export function checkLogin() {
             type: IS_LOGIN_REQUEST
         });
 
-        fetch(`http://localhost:8888/login`, {
+        return fetch(`http://localhost:8888/login`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -33,14 +33,16 @@ export function checkLogin() {
 		})
 		.then(data => {
             //console.log('success', data);
-            return dispatch({
+            dispatch({
                 type: IS_LOGIN_SUCCESS,
                 payload: data
             });
+
+            return data;
 		})
 		.catch(e => {
             //console.log('error', e);
-            dispatch({
+            return dispatch({
                 type: IS_LOGIN_FAIL,
                 error: true,
                 payload: new Error('Ошибка авторизации')
@@ -55,7 +57,7 @@ export function registration(data) {
             type: REG_REQUEST
         });
 
-        fetch(`http://localhost:8888/register`, {
+        return fetch(`http://localhost:8888/register`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -69,7 +71,7 @@ export function registration(data) {
 		})
 		.then(data => {
             //console.log('success', data);
-            dispatch({
+            return dispatch({
                 type: REG_SUCCESS,
                 payload: data
             });
@@ -91,7 +93,7 @@ export function login(data) {
             type: REG_REQUEST
         });
 
-        fetch(`http://localhost:8888/login`, {
+        return fetch(`http://localhost:8888/login`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -110,10 +112,7 @@ export function login(data) {
                 payload: data
             });
 
-            dispatch({
-                type: LOGIN_SUCCESS,
-                payload: data
-            });
+            return data;
 		})
 		.catch(e => {
             //console.log('error', e);
@@ -132,7 +131,7 @@ export function logout() {
             type: LOGOUT_REQUEST
         });
 
-        fetch(`http://localhost:8888/logout`, {
+        return fetch(`http://localhost:8888/logout`, {
             method: 'GET',
             headers: {
 				'Content-Type': 'application/json'
@@ -149,6 +148,8 @@ export function logout() {
                 type: LOGOUT_SUCCESS,
                 payload: data
             });
+
+            return data;
 		})
 		.catch(e => {
             //console.log('error', e);

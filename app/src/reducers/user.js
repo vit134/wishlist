@@ -59,6 +59,7 @@ export function userReducer(state = initialState, action) {
         case LOGOUT_REQUEST:
             return { ...state, isFetching: true, error: '' };
         case LOGOUT_SUCCESS:
+            console.log(state)
             return { ...state, isFetching: false, isLogin: false, user_info: {} };
         case LOGOUT_FAIL:
             return {

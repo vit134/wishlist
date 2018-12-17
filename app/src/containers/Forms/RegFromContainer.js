@@ -9,10 +9,7 @@ import RegForm from '../../components/Forms/RegForm';
 
 class RegFormContainer extends Component {
     render() {
-		const { user } = this.props;
-		const { registration, login } = this.props.userActions;
-		const { toggleOverlay } = this.props.overlayActions;
-        return <RegForm user={user} registration={registration} login={login} toggleOverlay={toggleOverlay}/>
+        return <RegForm {...this.props}/>
     }
 }
 
