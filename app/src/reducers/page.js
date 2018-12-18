@@ -12,7 +12,10 @@ import {
     ADD_WHISHES_ERROR,
     UPDATE_WHISHES_REQUEST,
     UPDATE_WHISHES_SUCCESS,
-    UPDATE_WHISHES_ERROR
+    UPDATE_WHISHES_ERROR,
+    DELETE_WHISHES_REQUEST,
+    DELETE_WHISHES_SUCCESS,
+    DELETE_WHISHES_ERROR
 } from '../actions/PageActions';
 
 const initialState = {
@@ -49,6 +52,19 @@ export function pageReducer(state = initialState, action) {
                 isFetching: false
             }
         case UPDATE_WHISHES_ERROR:
+            return { ...state, isFetching: false, err: action.error }
+        case DELETE_WHISHES_REQUEST:
+            return { ...state, isFetching: true }
+        case DELETE_WHISHES_SUCCESS:
+            console.log(action.payload)
+            return {
+                ...state,
+                data: Object.assign({}, state.data, {
+                    body: state.data.body.filter(el => !action.payload.includes(el._id))
+                }),
+                isFetching: false
+            }
+        case DELETE_WHISHES_ERROR:
             return { ...state, isFetching: false, err: action.error }
         default:
             return { ...state };

@@ -83,7 +83,7 @@ router.put('/wishes', function (req, res) {
 router.delete('/wishes', function (req, res) {
     Wishes.deleteMany({ _id: { $in: req.body } }, function (err, resp) {
         if (err) handleError(err);
-        res.send();
+        res.send(req.body);
     })
 });
 
