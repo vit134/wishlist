@@ -21,3 +21,18 @@
 	width: 50px;
 	text-align: center;
 }
+
+.list__selection-actions {
+	min-height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.list__selection-actions-button {
+	margin-right: 15px;
+}
+
+.list__selection-actions-button:last-child {
+	margin-right: 0;
+}

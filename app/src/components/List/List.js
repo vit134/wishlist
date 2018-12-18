@@ -2,7 +2,7 @@ import React from 'react';
 
 import './List.css';
 
-import { Table, Checkbox } from 'antd';
+import { Table, Checkbox, Button } from 'antd';
 
 import Tags from '../Tag/Tag';
 
@@ -61,52 +61,107 @@ export default class List extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onCheck = this.onCheck.bind(this);
+		this.onRemove = this.onRemove.bind(this);
+		this.onAssign = this.onCheck.bind(this);
+
+		this.state = {
+			selectedRowKeys: [],
+			selectedRows: []
+		};
 	} 
+
+	onSelectChange = (selectedRowKeys, selectedRows) => 
+		this.setState({ selectedRowKeys, selectedRows })
 	
 	onCheck = (data) => {
 		const { updateWish } = this.props.pageActions
-		console.log(this.props, data)
-
 		updateWish({ ...data, assigned: this.props.user.user_info._id})
 	}
 
+	onRemove() {
+		console.log('remove', this.state.selectedRows);
+		this.props.pageActions.deleteWish(this.state.selectedRows.map(el => el._id))
+	}
+
+	onAssign() {
+		console.log('assign', this.state.selectedRows);
+	}
+
 	render() {
-		//console.log(this.props.page)
+		const { selectedRowKeys, selectedRows } = this.state;
+		const rowSelection = {
+			selectedRowKeys,
+			onChange: this.onSelectChange,
+		};
+
 		return (
-			<Table dataSource={this.props.page.data.body}>
-				<Column
-					title='Name'
-					dataIndex='name'
-					render={(text, data) => {
-							return <a href={data.link}>{text}</a>
-						}
-					}
-				/>
-				<Column
-					title='Tags'
-					dataIndex='tags'
-					render={tags => {
-							return <Tags tags={tags} />
-						}
-					}
-				/>
-				<Column
-					title='Assigned'
-					dataIndex='assigned'
-					render={(assign, data) => {
+			<>
+				<Table
+					rowSelection={rowSelection}
+					dataSource={this.props.page.data.body}
+					footer={
+						() => {
 							return (
-								<Checkbox
-									checked={assign !== ''}
-									disabled={assign !== ''}
-									onChange={() => this.onCheck(data)}
-								>
-									{assign !== '' ? <>{assign}</> : 'assign to me'}
-								</Checkbox>
+								<div className="list__selection-actions">
+									{
+										selectedRows.length > 0 &&
+											<>
+												<Button 
+													type="danger" 
+													className="list__selection-actions-button"
+													icon="delete"
+													onClick={this.onRemove}
+											>
+												Remove
+											</Button>
+											<Button 
+												type="primary" 
+												className="list__selection-actions-button"
+												icon="check-square"
+											>
+												Assign to me
+											</Button>
+											</>
+									}
+								</div>
 							)
 						}
 					}
-				/>	
-			</Table>
+				>
+					<Column
+						title='Name'
+						dataIndex='name'
+						render={(text, data) => {
+								return <a href={data.link}>{text}</a>
+							}
+						}
+					/>
+					<Column
+						title='Tags'
+						dataIndex='tags'
+						render={tags => {
+								return <Tags tags={tags} />
+							}
+						}
+					/>
+					<Column
+						title='Assigned'
+						dataIndex='assigned'
+						render={(assign, data) => {
+								return (
+									<Checkbox
+										checked={assign !== ''}
+										disabled={assign !== ''}
+										onChange={() => this.onCheck(data)}
+									>
+										{assign !== '' ? <>{assign}</> : 'assign to me'}
+									</Checkbox>
+								)
+							}
+						}
+					/>	
+				</Table>
+			</>
 		);
 	}
 }

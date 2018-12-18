@@ -42,8 +42,7 @@ export function pageReducer(state = initialState, action) {
         case UPDATE_WHISHES_REQUEST:
             return { ...state, isFetching: true }
         case UPDATE_WHISHES_SUCCESS:
-            console.log('reducers', action.payload)
-            console.log('bla', state.data.find(el => el._id === action.payload._id))
+            console.log('reducers', state.data.find(el => console.log(el)))
             return {
                 ...state,
                 data: Object.assign({}, state.data, { body: state.data.body.concat(action.payload) }),

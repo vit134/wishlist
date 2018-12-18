@@ -19,13 +19,18 @@ export const UPDATE_WHISHES_REQUEST = 'UPDATE_WHISHES_REQUEST';
 export const UPDATE_WHISHES_SUCCESS = 'UPDATE_WHISHES_SUCCESS';
 export const UPDATE_WHISHES_ERROR = 'UPDATE_WHISHES_ERROR';
 
+
+export const DELETE_WHISHES_REQUEST = 'DELETE_WHISHES_REQUEST';
+export const DELETE_WHISHES_SUCCESS = 'DELETE_WHISHES_SUCCESS';
+export const DELETE_WHISHES_ERROR = 'DELETE_WHISHES_ERROR';
+
 export function getWhishes(user) {
     return dispatch => {
         dispatch({
             type: GET_WHISHES_REQUEST
         });
 
-        return fetch(`http://localhost:8888/wishes?user_id=${user._id}`, {
+        return fetch(`http://localhost:8888/wishes`, {
             method: 'GET',
             headers: {
 				'Content-Type': 'application/json'
@@ -121,6 +126,42 @@ export function updateWish(data) {
                 //console.log('error', e);
                 dispatch({
                     type: UPDATE_WHISHES_ERROR,
+                    error: true,
+                    payload: new Error('Ошибка загрузки вишек')
+                });
+            });
+    }
+}
+
+export function deleteWish(data) {
+    return dispatch => {
+        dispatch({
+            type: DELETE_WHISHES_REQUEST
+        });
+
+        fetch(`http://localhost:8888/wishes`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        })
+            .then(res => {
+                //console.log('res', res)
+                return res.json()
+            })
+            .then(data => {
+                //console.log('success', data);
+                dispatch({
+                    type: DELETE_WHISHES_SUCCESS,
+                    payload: data
+                });
+            })
+            .catch(e => {
+                //console.log('error', e);
+                dispatch({
+                    type: DELETE_WHISHES_ERROR,
                     error: true,
                     payload: new Error('Ошибка загрузки вишек')
                 });

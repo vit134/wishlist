@@ -68,8 +68,6 @@ router.post('/wishes', function (req, res) {
 });
 
 router.put('/wishes', function (req, res) {
-    console.log('put wishes', req.body);
-
     Wishes.findById(req.body._id, function (err, wish) {
         if (err) return handleError(err);
 
@@ -79,15 +77,14 @@ router.put('/wishes', function (req, res) {
             if (err) return handleError(err);
             res.send(updatedWish);
         });
-
-        //res.send(wish)
     });
-    /* let body = {
-        ...req.body,
-        userId: String(req.user._id)
-    }
-    const item = new Wishes({ ...body })
-    item.save().then((data) => res.send(data)); */
+});
+
+router.delete('/wishes', function (req, res) {
+    Wishes.deleteMany({ _id: { $in: req.body } }, function (err, resp) {
+        if (err) handleError(err);
+        res.send();
+    })
 });
 
 module.exports = router;
