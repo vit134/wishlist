@@ -63,9 +63,31 @@ router.post('/wishes', function (req, res) {
         ...req.body,
         userId: String(req.user._id)
     }
-    console.log(body)
     const item = new Wishes({...body})
     item.save().then((data) => res.send(data));
+});
+
+router.put('/wishes', function (req, res) {
+    console.log('put wishes', req.body);
+
+    Wishes.findById(req.body._id, function (err, wish) {
+        if (err) return handleError(err);
+
+        wish.set({...req.body})
+
+        wish.save(function (err, updatedWish) {
+            if (err) return handleError(err);
+            res.send(updatedWish);
+        });
+
+        //res.send(wish)
+    });
+    /* let body = {
+        ...req.body,
+        userId: String(req.user._id)
+    }
+    const item = new Wishes({ ...body })
+    item.save().then((data) => res.send(data)); */
 });
 
 module.exports = router;

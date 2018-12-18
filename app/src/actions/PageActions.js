@@ -7,7 +7,6 @@ export const GET_PHOTOS_BY_YEAR = 'GET_PHOTOS_BY_YEAR';
 
 export const SORT_BY_LIKES = 'SORT_BY_LIKES';
 
-
 export const GET_WHISHES_REQUEST = 'GET_WHISHES_REQUEST';
 export const GET_WHISHES_SUCCESS = 'GET_WHISHES_SUCCESS';
 export const GET_WHISHES_ERROR = 'GET_WHISHES_ERROR';
@@ -15,6 +14,10 @@ export const GET_WHISHES_ERROR = 'GET_WHISHES_ERROR';
 export const ADD_WHISHES_REQUEST = 'ADD_WHISHES_REQUEST';
 export const ADD_WHISHES_SUCCESS = 'ADD_WHISHES_SUCCESS';
 export const ADD_WHISHES_ERROR = 'ADD_WHISHES_ERROR';
+
+export const UPDATE_WHISHES_REQUEST = 'UPDATE_WHISHES_REQUEST';
+export const UPDATE_WHISHES_SUCCESS = 'UPDATE_WHISHES_SUCCESS';
+export const UPDATE_WHISHES_ERROR = 'UPDATE_WHISHES_ERROR';
 
 export function getWhishes(user) {
     return dispatch => {
@@ -59,7 +62,7 @@ export function addWish(data) {
             type: ADD_WHISHES_REQUEST
         });
 
-        fetch(`http://localhost:8888/wishes`, {
+        return fetch(`http://localhost:8888/wishes`, {
             method: 'POST',
             headers: {
 				'Content-Type': 'application/json'
@@ -86,6 +89,42 @@ export function addWish(data) {
                 payload: new Error('Ошибка загрузки вишек')
             });
 		});
+    }
+}
+
+export function updateWish(data) {
+    return dispatch => {
+        dispatch({
+            type: UPDATE_WHISHES_REQUEST
+        });
+
+        fetch(`http://localhost:8888/wishes`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            credentials: 'include'
+        })
+            .then(res => {
+                //console.log('res', res)
+                return res.json()
+            })
+            .then(data => {
+                //console.log('success', data);
+                dispatch({
+                    type: UPDATE_WHISHES_SUCCESS,
+                    payload: data
+                });
+            })
+            .catch(e => {
+                //console.log('error', e);
+                dispatch({
+                    type: UPDATE_WHISHES_ERROR,
+                    error: true,
+                    payload: new Error('Ошибка загрузки вишек')
+                });
+            });
     }
 }
 

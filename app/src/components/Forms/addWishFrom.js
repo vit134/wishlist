@@ -41,11 +41,6 @@ export default class RegForm extends React.Component {
 		if (fields.name && fields.link) {
 			this.props.addWish(fields);
 		}
-		/* if (this.state.mode === 'reg') {
-			this.props.registration(fields);
-		} else {
-			this.props.login(fields);
-		} */
 	}
 
 	render() {
@@ -58,6 +53,7 @@ export default class RegForm extends React.Component {
 						</div>
 					</div>
 					<form ref={this.form} className="visible">
+						<input type="hidden" name="assigned" value=""/>
 						<div className="form__row">
 							<label htmlFor="name" className="label">Название</label>
 							<input autoComplete="off" className="input" type="text" id="name" name="name" placeholder="Название Вишки"/>

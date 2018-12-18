@@ -15,6 +15,7 @@ export default class Filters extends React.Component {
             <div className="filters">
                 <Button
                     type="primary"
+                    disabled={!this.props.user.isLogin}
                     onClick={() => toggleOverlay(<AddWishForm addWish={addWish} />)}
                 >
                     Добавить

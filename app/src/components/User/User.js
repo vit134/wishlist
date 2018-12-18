@@ -4,6 +4,8 @@ import './user.css';
 import RegForm from '../../containers/Forms/RegFromContainer';
 import Tooltip from '../Tooltip/Tooltip';
 
+import { Button } from 'antd';
+
 import Preloader from '../Preloader/Preloader';
 
 export default class User extends React.Component {
@@ -37,9 +39,7 @@ export default class User extends React.Component {
                 <div className={`user__dropdown ${this.state.dropdownOpen ? 'user__dropdown_visible' : '' }`}>
                     <div className="user__row">{username}</div>
                     <div className="user__row">
-                        <button className="btn" onClick={this.logoutHandler}>
-                            Выйти
-                        </button>
+                        <Button type="primary" onClick={this.logoutHandler}>Выйти</Button>
                     </div>
                 </div>
             </Tooltip>
@@ -62,9 +62,7 @@ export default class User extends React.Component {
         } else {
             if (!isLogin) {
                 return (
-                    <button className="btn" onClick={() => toggleOverlay(<RegForm {...this.props}/>)}>
-                        Войти
-                    </button>
+                    <Button type="primary" onClick={() => toggleOverlay(<RegForm {...this.props} />)}>Войти</Button>
                 )
             } else {
                 const { lastname, firstname } = user_info;

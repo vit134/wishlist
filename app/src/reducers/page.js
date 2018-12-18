@@ -9,7 +9,10 @@ import {
     GET_WHISHES_ERROR,
     ADD_WHISHES_REQUEST,
     ADD_WHISHES_SUCCESS,
-    ADD_WHISHES_ERROR
+    ADD_WHISHES_ERROR,
+    UPDATE_WHISHES_REQUEST,
+    UPDATE_WHISHES_SUCCESS,
+    UPDATE_WHISHES_ERROR
 } from '../actions/PageActions';
 
 const initialState = {
@@ -19,16 +22,6 @@ const initialState = {
 };
 
 export function pageReducer(state = initialState, action) {
-    /* function sortByLikes(a, b) {
-        let result;
-        if (state.sorting.likes) {
-            result = b.likes.count - a.likes.count;
-        } else {
-            result = a.likes.count - b.likes.count;
-        }
-        return result;
-    } */
-
     switch (action.type) {
         case GET_WHISHES_REQUEST:
             return { ...state, isFetching: true }
@@ -45,6 +38,18 @@ export function pageReducer(state = initialState, action) {
                 isFetching: false
             }
         case ADD_WHISHES_ERROR:
+            return { ...state, isFetching: false, err: action.error }
+        case UPDATE_WHISHES_REQUEST:
+            return { ...state, isFetching: true }
+        case UPDATE_WHISHES_SUCCESS:
+            console.log('reducers', action.payload)
+            console.log('bla', state.data.find(el => el._id === action.payload._id))
+            return {
+                ...state,
+                data: Object.assign({}, state.data, { body: state.data.body.concat(action.payload) }),
+                isFetching: false
+            }
+        case UPDATE_WHISHES_ERROR:
             return { ...state, isFetching: false, err: action.error }
         default:
             return { ...state };
