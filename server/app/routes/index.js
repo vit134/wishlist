@@ -3,6 +3,21 @@ var passport = require('passport');
 var Account = require('../models/account');
 var Wishes = require('../models/wishes');
 var router = express.Router();
+var formidable = require('formidable'),
+    util = require('util');
+
+
+
+router.post('/images', function (req, res) {
+    var form = new formidable.IncomingForm();
+
+    form.parse(req, function (err, fields, files) {
+        res.writeHead(200, { 'content-type': 'text/plain' });
+        res.write('received upload:\n\n');
+        console.log(fields, files);
+        res.end(util.inspect({ fields: fields, files: files }));
+    });
+});
 
 router.get('/', function (req, res) {
     res.render('index', { user : req.user });

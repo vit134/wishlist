@@ -60,6 +60,10 @@ class AddWishForm extends React.Component {
 		}
 	}
 
+	hasErrors(fieldsError) {
+		return Object.keys(fieldsError).some(field => fieldsError[field]);
+	}
+
 	handleSubmit(e) {
 		e && e.preventDefault();
 		console.log('handlesubmit')
@@ -113,9 +117,11 @@ class AddWishForm extends React.Component {
 						}
 					</FormItem>
 					<FormItem wrapperCol={{ xs: {span: 24 }, sm: {span: 8, offset: 8 }}}>
-						<Button type="primary" htmlType="submit" className="login-form-button">
-							Log in
-						</Button>
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="login-form-button"
+							disabled={this.hasErrors(getFieldsError())}>Добавить</Button>
 					</FormItem>
 				</Form>
 			</Card>
