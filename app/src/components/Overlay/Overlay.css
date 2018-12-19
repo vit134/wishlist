@@ -12,7 +12,7 @@ h6 {
 .overlay {
 	width: 100%;
 	height: 100vh;
-	background: rgba(0, 0, 0, .7);
+	background: rgba(0, 0, 0, .3);
 	position: fixed;
 	top: 0;
 	bottom: 0;
@@ -21,15 +21,18 @@ h6 {
 	display: none;
 	align-items: center;
 	justify-content: center;
-	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+	/* background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
 	background-size: 400% 400%;
 	-webkit-animation: Gradient 15s ease infinite;
 	-moz-animation: Gradient 15s ease infinite;
-	animation: Gradient 15s ease infinite;
+	animation: Gradient 15s ease infinite; */
+	z-index: 999;
+	transition: all .3s ease;
 }
 
 .overlay_visible {
 	display: flex;
+	background: rgba(0, 0, 0, .7);
 }
 
 .overlay_transparent {
@@ -43,18 +46,14 @@ h6 {
 	right: 30px;
 	width: 30px;
 	height: 30px;
-	border-radius: 50%;
-	background: #fff;
-	color: #222;
-	font-weight: bold;
+	color: #fff;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
 }
 
 .overlay__close:hover {
-	background: red;
-	color: #fff;
+	color: #1890ff;
 }
 
 .overlay__close:active {

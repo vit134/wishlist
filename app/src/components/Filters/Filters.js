@@ -4,7 +4,7 @@ import './Filters.css';
 
 import { Button } from 'antd';
 
-import AddWishForm from '../Forms/addWishFrom';
+import AddWishForm from '../Forms/addWishForm/index';
 
 export default class Filters extends React.Component {
     render() {

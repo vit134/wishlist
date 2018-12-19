@@ -79,8 +79,13 @@ export default class List extends React.Component {
 	}
 
 	onRemove() {
-		console.log('remove', this.state.selectedRows);
 		this.props.pageActions.deleteWish(this.state.selectedRows.map(el => el._id))
+			.then(() => {
+				this.setState({
+					selectedRowKeys: [],
+					selectedRows: []
+				})
+			})
 	}
 
 	onAssign() {

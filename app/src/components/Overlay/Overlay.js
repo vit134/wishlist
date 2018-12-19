@@ -1,4 +1,7 @@
 import * as React from 'react';
+
+import { Icon } from 'antd';
+
 import './Overlay.css';
 
 export default class Overlay extends React.Component {
@@ -25,7 +28,12 @@ export default class Overlay extends React.Component {
 			>
 				{content ? content : ''}
 				{!transparent &&
-					<span className="overlay__close" onClick={toggleOverlay}>X</span>
+					<Icon
+						style={{ fontSize: '30px' }}
+						className="overlay__close"
+						onClick={toggleOverlay}
+						type="close-circle"
+					/>
 				}
 			</div>
 		);
