@@ -92,7 +92,7 @@ export default class List extends React.Component {
 								return (
 									<>
 										<img src={`http://localhost:8888/${data.image.replace('./uploads/', '')}`} alt={text}/>
-										<a href={data.link}>{text}</a>
+										<a target="_blank" rel="noopener noreferrer" href={data.link}>{text}</a>
 									</>
 								)
 							}
