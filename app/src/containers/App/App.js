@@ -40,7 +40,7 @@ class App extends Component {
                         <Logo />
                         <User {...this.props} />
                     </div>
-                </Header>,
+                </Header>
                 <Content>
                     <div className="container">
                         <Page  {...this.props}/>
