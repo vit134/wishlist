@@ -36,3 +36,13 @@
 .list__selection-actions-button:last-child {
 	margin-right: 0;
 }
+
+.list__col_name {
+	display: flex;
+	align-items: center
+}
+
+.list__col_name img {
+	width: 50px;
+	margin-right: 15px;
+}

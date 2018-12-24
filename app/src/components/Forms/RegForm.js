@@ -10,8 +10,6 @@ export default class RegForm extends React.Component {
 			mode: 'auth'
 		}
 
-		console.log('regform', this.props)
-
 		this.switch = this.switch.bind(this);
 		this.submit = this.submit.bind(this);
 		this.form = React.createRef();

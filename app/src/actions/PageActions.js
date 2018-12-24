@@ -139,7 +139,7 @@ export function deleteWish(data) {
             type: DELETE_WHISHES_REQUEST
         });
 
-        fetch(`http://localhost:8888/wishes`, {
+        return fetch(`http://localhost:8888/wishes`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

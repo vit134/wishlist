@@ -1,9 +1,9 @@
 import React from 'react'
 
-import ImageUpload from './imageUpload';
+//import ImageUpload from './imageUpload';
 import '../Forms.css'
 
-import { Form, Input, Card, Select, Button } from 'antd'; 
+import { Form, Input, Card, Select, Button, Upload, Icon, message } from 'antd'; 
 const FormItem = Form.Item;
 
 const formItemLayout = {
@@ -17,10 +17,52 @@ const formItemLayout = {
 	},
 };
 
+const localProps = {
+	name: 'file',
+	action: 'http://localhost:8888/images',
+	credentials: 'include',
+	/* onChange(info) {
+		console.log('info', info)
+		if (info.file.status !== 'uploading') {
+			//console.log(info.file, info.fileList);
+		}
+		if (info.file.status === 'done') {
+			message.success(`${info.file.name} file uploaded successfully`);
+		} else if (info.file.status === 'error') {
+			message.error(`${info.file.name} file upload failed.`);
+		}
+	}, */
+	onRemove: (file) => {
+		console.log('file on remove', file);
+		const { tmpPath } = file.response;
+
+		fetch(`http://localhost:8888/images`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({tmpPath}),
+			credentials: 'include'
+		})
+			.then(res => {
+				//console.log('res', res)
+				return res.json()
+			})
+			.then(data => {
+				console.log('success', data);
+			})
+			.catch(e => {
+				console.log('error', e);
+			});
+
+	}
+};
+
 class AddWishForm extends React.Component {
 
 	state = {
-		tagsLoading: true
+		tagsLoading: true,
+		loading: false
 	}
 
 	componentDidMount() {
@@ -64,10 +106,29 @@ class AddWishForm extends React.Component {
 		return Object.keys(fieldsError).some(field => fieldsError[field]);
 	}
 
-	handleSubmit(e) {
+	handleSubmit = (e) => {
 		e && e.preventDefault();
-		console.log('handlesubmit')
+
+		this.props.form.validateFields((err, values) => {
+			if (err) return err;
+			console.log('values on submit', values);
+			this.setState({loading: true}, () => {
+				this.props.addWish(values)
+					.then(() => {
+						this.setState({loading: false})
+						this.props.toggleOverlay();
+					})
+			})
+			
+		})
 	}
+
+	normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  }
 
 	render() {
 
@@ -100,7 +161,17 @@ class AddWishForm extends React.Component {
 						{ getFieldDecorator('link')(<Input placeholder="Ссылка" />) }
 					</FormItem>
 					<FormItem {...formItemLayout} label="Изображение">
-						{getFieldDecorator('image')(<ImageUpload />)}
+						{
+							getFieldDecorator('image', {
+								valuePropName: 'fileList',
+								getValueFromEvent: this.normFile,
+							})(
+								<Upload {...this.props} {...localProps}>
+									<Button>
+										<Icon type="upload" /> Click to Upload
+									</Button>
+								</Upload>
+							)}
 					</FormItem>
 					<FormItem {...formItemLayout} label="Тэги">
 						{
@@ -119,6 +190,7 @@ class AddWishForm extends React.Component {
 					<FormItem wrapperCol={{ xs: {span: 24 }, sm: {span: 8, offset: 8 }}}>
 						<Button
 							type="primary"
+							loading={this.state.loading}
 							htmlType="submit"
 							className="login-form-button"
 							disabled={this.hasErrors(getFieldsError())}>Добавить</Button>
@@ -130,33 +202,3 @@ class AddWishForm extends React.Component {
 }
 
 export default Form.create()(AddWishForm);
-
-{/* <div className="form" onSubmit={this.submit}>
-				<div className="form__inner">
-					<div className="form__header">
-						<div className='form__title'>
-							<span>Новая Вишка</span>
-						</div>
-					</div>
-					<form ref={this.form} className="visible">
-						<input type="hidden" name="assigned" value=""/>
-						<div className="form__row">
-							<label htmlFor="name" className="label">Название</label>
-							<input autoComplete="off" className="input" type="text" id="name" name="name" placeholder="Название Вишки"/>
-						</div>
-						<div className="form__row">
-							<label htmlFor="link" className="label">Ссылка</label>
-							<input autoComplete="off" className="input" type="text" id="link" name="link" placeholder="Ссылка на Вишку"/>
-						</div>
-						<div className="form__row">
-							<label htmlFor="image" className="label">Картинка</label>
-							<input autoComplete="off" className="input" type="text" id="image" name="image" placeholder="Ссылка на картинку"/>
-						</div>
-						<div className="form__row">
-							<label htmlFor="tags" className="label">Тэги</label>
-							<input autoComplete="off" className="input" type="text" id="tags" name="tags" placeholder="Тэги через запятую"/>
-						</div>
-						<button className="btn">Добавить</button>
-					</form>
-				</div>
-			</div> */}
