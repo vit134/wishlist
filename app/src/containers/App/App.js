@@ -32,13 +32,11 @@ class App extends Component {
                     <Header>
                         <div className="container">
                             <Link to="/"><Logo /></Link>
-                            <Link to="/profile"><Button type="primary">Profile</Button></Link>
                             <User {...this.props} />
                         </div>
                     </Header>
                     <Content>
                         <div className="container">
-                            {/* <Page  {...this.props}/> */}
                             <Route path="/profile" render={props => <Profile {...props} {...this.props} />} />
                             <Route path="/user/:id" render={props => <SomeUser {...props} {...this.props} />} />
                         </div>
@@ -47,27 +45,6 @@ class App extends Component {
                 </Layout>
             </Router>
         );
-    }
-}
-
-class SomeUserPage extends Component {
-    componentDidMount() {
-        const { getWhishes } = this.props.pageActions;
-        const { id } = this.props.match.params;
-
-        getWhishes(id);
-    }
-
-    render() {
-        return (
-            <>
-                <div>SomeUserWishes</div>
-                {
-                    this.props.page.data.body &&
-                        this.props.page.data.body.map((el, i) => <div key={i}>{el.name}</div>)
-                }
-            </>
-        )
     }
 }
 

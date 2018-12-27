@@ -35,6 +35,8 @@
 
 .user__row {
 	padding: 15px 10px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .user__row_btns {
@@ -48,4 +50,17 @@
 
 .user__row:first-child {
 	padding-top: 0;
+}
+
+.user__button + .user__button {
+	margin-left: 20px;
+}
+
+.user__popover .ant-popover-title {
+	display: none;
+}
+
+.user__popover .ant-popover-inner-content {
+	display: flex;
+	justify-content: space-between;
 }

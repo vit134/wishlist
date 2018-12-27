@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
 import './user.css';
@@ -7,9 +7,7 @@ import './user.css';
 import RegForm from '../../containers/Forms/RegFromContainer';
 import Tooltip from '../Tooltip/Tooltip';
 
-import { Button } from 'antd';
-
-import Preloader from '../Preloader/Preloader';
+import { Button, Popover, Avatar } from 'antd';
 
 class User extends React.Component {
     constructor(props) {
@@ -36,14 +34,12 @@ class User extends React.Component {
     }
 
     renderTooltip(position) {
-        const { username } = this.props.user.user_info;
         return(
             <Tooltip position={position}>
                 <div className={`user__dropdown ${this.state.dropdownOpen ? 'user__dropdown_visible' : '' }`}>
-                    <div className="user__row">{username}</div>
                     <div className="user__row">
-                        <Link to="/profile"><Button type="primary">Profile</Button></Link>
-                        <Button type="primary" onClick={this.logoutHandler}>Выйти</Button>
+                        <Link to="/profile"><Button type="primary" className="user_button">Profile</Button></Link>
+                        <Button type="primary" className="user_button" onClick={this.logoutHandler}>Выйти</Button>
                     </div>
                 </div>
             </Tooltip>
@@ -56,6 +52,15 @@ class User extends React.Component {
                 this.props.overlayActions.toggleOverlay()
                 this.props.history.push('/');
             })
+    }
+
+    popoverContent = () => {
+        return (
+            <>
+                <Button type="primary" className="user__button"><Link to="/profile">Profile</Link></Button>
+                <Button type="primary" className="user__button" onClick={this.logoutHandler}>Logout</Button>
+            </>
+        );
     }
 
     renderTemplate = () => {
@@ -73,13 +78,19 @@ class User extends React.Component {
                 </Button>
             )
         } else {
-            const { lastname, firstname } = user_info;
+            const { lastname, firstname, image } = user_info;
             return (
                 <div className="user">
-                    Привет,{' '}
-                    <div className="user__info">
-                        <span className="user__title" onClick={this.toggleInfo}>{firstname} {lastname}</span>
-                    </div>
+                    <Avatar
+                        src={image && `http://localhost:8888/${image.replace('./uploads/', '')}`}
+                        icon={!image && 'user'}
+                        size={34}
+                    />
+                    <Popover overlayClassName="user__popover" content={this.popoverContent()} title="Title" trigger="click">
+                        <div className="user__info">
+                            <span className="user__title">{firstname} {lastname}</span>
+                        </div>
+                    </Popover>
                 </div>
             )
         }
