@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Layout, Button } from 'antd';
 
 import User from '../../components/User/User';
-//import Page from '../../components/Page/Page';
 import Overlay from '../../components/Overlay/Overlay';
 import Profile from '../../containers/Profile/Profile';
 import Logo from '../../components/Logo/Logo';
@@ -51,12 +50,6 @@ class App extends Component {
 }
 
 class SomeUserPage extends Component {
-    state = {
-        data: {
-            body: []
-        }
-    }
-
     componentDidMount() {
         const { getWhishes } = this.props.pageActions;
         const { id } = this.props.match.params;
@@ -65,7 +58,6 @@ class SomeUserPage extends Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <>
                 <div>SomeUserWishes</div>

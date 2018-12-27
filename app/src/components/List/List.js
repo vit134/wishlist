@@ -6,6 +6,8 @@ import { Table, Checkbox, Button } from 'antd';
 
 import Tags from '../Tag/Tag';
 
+import AddWishForm from '../Forms/addWishForm/index';
+
 const Column = Table.Column;
 
 export default class List extends React.Component {
@@ -49,12 +51,16 @@ export default class List extends React.Component {
 			selectedRowKeys,
 			onChange: this.onSelectChange,
 		};
+		const { toggleOverlay } = this.props.overlayActions;
+		const { addWish } = this.props.pageActions
 
 		return (
 			<>
 				<Table
 					rowSelection={rowSelection}
 					dataSource={this.props.page.data.body}
+					rowKey={(bla, i) => i}
+					pagination={{ hideOnSinglePage: true }}
 					footer={
 						() => {
 							return (
@@ -79,6 +85,13 @@ export default class List extends React.Component {
 											</Button>
 											</>
 									}
+									<Button
+										type="primary"
+										disabled={!this.props.user.isLogin}
+										onClick={() => toggleOverlay(<AddWishForm addWish={addWish} toggleOverlay={toggleOverlay} />)}
+									>
+										Добавить
+                </Button>
 								</div>
 							)
 						}

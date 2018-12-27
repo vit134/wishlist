@@ -59,27 +59,29 @@ class User extends React.Component {
     }
 
     renderTemplate = () => {
-        const { error, isFetching, isLogin, user_info } = this.props.user;
+        const { isFetching, isLogin, user_info } = this.props.user;
         const { toggleOverlay } = this.props.overlayActions;
 
-        if (isFetching) {
-            return <Preloader error={error}/>;
+        if (!isLogin) {
+            return (
+                <Button
+                    type="primary"
+                    onClick={() => toggleOverlay(<RegForm {...this.props}/>)}
+                    loading={isFetching}
+                >
+                    Войти
+                </Button>
+            )
         } else {
-            if (!isLogin) {
-                return (
-                    <Button type="primary" onClick={() => toggleOverlay(<RegForm {...this.props} />)}>Войти</Button>
-                )
-            } else {
-                const { lastname, firstname } = user_info;
-                return (
-                    <div className="user">
-                        Привет,{' '}
-                        <div className="user__info">
-                            <span className="user__title" onClick={this.toggleInfo}>{firstname} {lastname}</span>
-                        </div>
+            const { lastname, firstname } = user_info;
+            return (
+                <div className="user">
+                    Привет,{' '}
+                    <div className="user__info">
+                        <span className="user__title" onClick={this.toggleInfo}>{firstname} {lastname}</span>
                     </div>
-                )
-            }
+                </div>
+            )
         }
     };
 

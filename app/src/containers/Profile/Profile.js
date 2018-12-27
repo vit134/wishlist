@@ -2,30 +2,25 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Page from '../../components/Page/Page';
+import Profile from '../../components/Profile/Profile';
 
 import * as userActions from '../../actions/UserActions';
 import * as pageActions from '../../actions/PageActions';
 import * as overlayActions from '../../actions/OverlayActions';
 
-class Test extends Component {
+class ProfileContainer extends Component {
   componentDidMount() {
     const { getWhishes } = this.props.pageActions;
-    getWhishes(this.props.user.user_info._id);
+    const { checkLogin } = this.props.userActions;
+
+    checkLogin().then(() => {
+      return getWhishes(this.props.user.user_info._id);
+    })
+    
   }
 
-  /* componentWillReceiveProps(prev, next) {
-    const prevUser = prev.user;
-    const currentUser = this.props.user.isLogin;
-    const { getWhishes } = this.props.pageActions;
-
-    if (prevUser.isLogin && prevUser.isLogin !== currentUser) {
-      //getWhishes(prevUser.user_info._id);
-    }
-  } */
-
   render() {
-    return <Page {...this.props} />
+    return <Profile {...this.props} />
   }
 }
 
@@ -48,4 +43,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Test);
+)(ProfileContainer);
