@@ -9,6 +9,7 @@ import { Layout, Button } from 'antd';
 import User from '../../components/User/User';
 import Overlay from '../../components/Overlay/Overlay';
 import Profile from '../../containers/Profile/Profile';
+import SomeUser from '../../containers/SomeUser/SomeUser';
 import Logo from '../../components/Logo/Logo';
 import * as pageActions from '../../actions/PageActions';
 import * as userActions from '../../actions/UserActions';
@@ -39,7 +40,7 @@ class App extends Component {
                         <div className="container">
                             {/* <Page  {...this.props}/> */}
                             <Route path="/profile" render={props => <Profile {...props} {...this.props} />} />
-                            <Route path="/user/:id" render={props => <SomeUserPage {...props} {...this.props} />} />
+                            <Route path="/user/:id" render={props => <SomeUser {...props} {...this.props} />} />
                         </div>
                     </Content>,
                     <Overlay { ...this.props}/>
