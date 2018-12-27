@@ -2,7 +2,7 @@ import React from 'react';
 
 import './List.css';
 
-import { Table, Checkbox, Button } from 'antd';
+import { Table, Checkbox, Button, Popconfirm } from 'antd';
 
 import Tags from '../Tag/Tag';
 
@@ -32,7 +32,8 @@ export default class List extends React.Component {
 	}
 
 	onRemove() {
-		this.props.pageActions.deleteWish(this.state.selectedRows.map(el => el._id))
+		const { deleteWish } = this.props.pageActions;
+		deleteWish(this.state.selectedRows.map(el => el._id))
 			.then(() => {
 				this.setState({
 					selectedRowKeys: [],
@@ -55,7 +56,7 @@ export default class List extends React.Component {
 		const { addWish } = this.props.pageActions
 
 		return (
-			<>
+			<div className="list">
 				<Table
 					rowSelection={rowSelection}
 					dataSource={this.props.page.data.body}
@@ -68,30 +69,31 @@ export default class List extends React.Component {
 									{
 										selectedRows.length > 0 &&
 											<>
+												<Popconfirm title="Are you sure delete this wish?" onConfirm={this.onRemove} okText="Yes" cancelText="No">
+													<Button 
+														type="danger" 
+														className="list__selection-actions-button"
+														icon="delete"
+													>
+														Remove
+													</Button>
+												</Popconfirm>
 												<Button 
-													type="danger" 
+													type="primary" 
 													className="list__selection-actions-button"
-													icon="delete"
-													onClick={this.onRemove}
-											>
-												Remove
-											</Button>
-											<Button 
-												type="primary" 
-												className="list__selection-actions-button"
-												icon="check-square"
-											>
-												Assign to me
-											</Button>
+													icon="check-square"
+												>
+													Assign to me
+												</Button>
 											</>
 									}
 									<Button
 										type="primary"
-										disabled={!this.props.user.isLogin}
+										disabled={!this.props.user.isLogin || selectedRows.length > 0}
 										onClick={() => toggleOverlay(<AddWishForm addWish={addWish} toggleOverlay={toggleOverlay} />)}
 									>
-										Добавить
-                </Button>
+										Add wish
+									</Button>
 								</div>
 							)
 						}
@@ -100,13 +102,12 @@ export default class List extends React.Component {
 					<Column
 						title='Name'
 						dataIndex='name'
-						className="list__col_name"
 						render={(text, data) => {
 								return (
-									<>
+									<div className="list__col_name">
 										{data.image && <img src={`http://localhost:8888/${data.image.replace('./uploads/', '')}`} alt={text}/>}
 										<a target="_blank" rel="noopener noreferrer" href={data.link}>{text}</a>
-									</>
+									</div>
 								)
 							}
 						}
@@ -136,7 +137,7 @@ export default class List extends React.Component {
 						}
 					/>	
 				</Table>
-			</>
+			</div>
 		);
 	}
 }

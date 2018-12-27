@@ -46,3 +46,7 @@
 	width: 50px;
 	margin-right: 15px;
 }
+
+.list table td {
+	vertical-align: middle;
+}
