@@ -1,4 +1,7 @@
 import React from 'react';
+import { BrowserRouter as Link } from "react-router-dom";
+import { withRouter } from "react-router";
+
 import './user.css';
 
 import RegForm from '../../containers/Forms/RegFromContainer';
@@ -8,7 +11,7 @@ import { Button } from 'antd';
 
 import Preloader from '../Preloader/Preloader';
 
-export default class User extends React.Component {
+class User extends React.Component {
     constructor(props) {
         super(props);
 
@@ -39,6 +42,7 @@ export default class User extends React.Component {
                 <div className={`user__dropdown ${this.state.dropdownOpen ? 'user__dropdown_visible' : '' }`}>
                     <div className="user__row">{username}</div>
                     <div className="user__row">
+                        <Link to="/profile"><Button type="primary">Profile</Button></Link>
                         <Button type="primary" onClick={this.logoutHandler}>Выйти</Button>
                     </div>
                 </div>
@@ -50,6 +54,7 @@ export default class User extends React.Component {
         this.props.userActions.logout()
             .then(() => {
                 this.props.overlayActions.toggleOverlay()
+                this.props.history.push('/');
             })
     }
 
@@ -79,6 +84,12 @@ export default class User extends React.Component {
     };
 
     render() {
-        return <div className="ib user">{this.renderTemplate()}</div>;
+        return (
+            <div className="ib user">
+                {this.renderTemplate()}
+            </div>
+        );
     }
 }
+
+export default withRouter(User)

@@ -17,9 +17,9 @@ class NormalLoginForm extends React.Component {
 			if (!err) {
 				console.log('Received values of form: ', values);
 				login(values)
-					.then((resp) => {
+					/* .then((resp) => {
 						return this.props.pageActions.getWhishes(resp.user._id);
-					})
+					}) */
 					.then(() => {
 						toggleOverlay();
 					})

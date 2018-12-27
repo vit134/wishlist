@@ -1,12 +1,3 @@
-export const SET_YEAR = 'SET_YEAR';
-export const GET_PHOTOS_REQUEST = 'GET_PHOTOS_REQUEST';
-export const GET_PHOTOS_SUCCESS = 'GET_PHOTOS_SUCCESS';
-export const GET_PHOTOS_ERROR = 'GET_PHOTOS_ERROR';
-
-export const GET_PHOTOS_BY_YEAR = 'GET_PHOTOS_BY_YEAR';
-
-export const SORT_BY_LIKES = 'SORT_BY_LIKES';
-
 export const GET_WHISHES_REQUEST = 'GET_WHISHES_REQUEST';
 export const GET_WHISHES_SUCCESS = 'GET_WHISHES_SUCCESS';
 export const GET_WHISHES_ERROR = 'GET_WHISHES_ERROR';
@@ -30,7 +21,7 @@ export function getWhishes(user) {
             type: GET_WHISHES_REQUEST
         });
 
-        return fetch(`http://localhost:8888/wishes`, {
+        return fetch(`http://localhost:8888/wishes${user && `?user=${user}`}`, {
             method: 'GET',
             headers: {
 				'Content-Type': 'application/json'
