@@ -6,6 +6,7 @@ var router = express.Router();
 var formidable = require('formidable');
 var util = require('util');
 var fs = require('fs');
+var mongoose = require('mongoose');
 
 var moveFile = require('../utils');
 
@@ -93,22 +94,37 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/wishes', function (req, res) {
-    if (!req.user) res.send({error: true, message: 'no user'})
-    const userId = String(req.user._id);
+    //if (!req.user) res.send({error: true, message: 'no user'})
+
+    const userId = String(req.query.user);
     let request = {
         error: false,
         userId
     }
+    
+    if (mongoose.Types.ObjectId.isValid(userId)) {
+        Wishes.find({ userId: userId }, function (err, wishes) {
+            if (err) {
+                request.error = err;
+            }
 
-    Wishes.find({userId}, function (err, wishes) {
-        if (err) {
-            request.error = err;
-        }
+            request.body = wishes;
 
-        request.body = wishes;
+            res.send(request);
+        });
+    } else {
+        Account.findOne({username: userId})
+            .then(acc => {
+                const id = acc._id;
+                return Wishes.find({ userId: id })
+            })
+            .then(wishes => {
+                request.body = wishes;
 
-        res.send(request);
-    });
+                res.send(request);
+            })
+            .catch(err => res.status(400).send({error: true, message: err}))
+    }
 });
 
 router.post('/wishes', async function (req, res) {
