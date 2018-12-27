@@ -93,6 +93,23 @@ router.get('/logout', function(req, res) {
     res.send({user: req.user})
 });
 
+router.get('/user-info', function(req, res) {
+    const userId = String(req.query.user);
+    if (mongoose.Types.ObjectId.isValid(userId)) {
+        Account.findOne({ userId })
+            .then(acc => {
+                res.send(acc);
+            })
+            .catch(err => res.status(400).send(err))
+    } else {
+        Account.findOne({ username: userId })
+            .then(acc => {
+                res.send(acc);
+            })
+            .catch(err => res.status(400).send(err))
+    }
+});
+
 router.get('/wishes', function (req, res) {
     //if (!req.user) res.send({error: true, message: 'no user'})
 

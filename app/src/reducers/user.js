@@ -10,14 +10,21 @@ import {
     LOGIN_FAIL,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
-    LOGOUT_FAIL
+    LOGOUT_FAIL,
+    GET_USER_INFO_REQUEST,
+    GET_USER_INFO_SUCCESS,
+    GET_USER_INFO_FAIL
 } from '../actions/UserActions';
 
 const initialState = {
     isLogin: false,
     user_info: {},
     error: '',
-    isFetching: false
+    isFetching: false,
+    some_user: {
+        isFetching: false,
+        data: null
+    }
 };
 
 export function userReducer(state = initialState, action) {
@@ -59,13 +66,30 @@ export function userReducer(state = initialState, action) {
         case LOGOUT_REQUEST:
             return { ...state, isFetching: true, error: '' };
         case LOGOUT_SUCCESS:
-            console.log(state)
             return { ...state, isFetching: false, isLogin: false, user_info: {} };
         case LOGOUT_FAIL:
             return {
                 ...state,
                 isFetching: false,
                 error: action.payload.message
+            };
+        case GET_USER_INFO_REQUEST:
+            return { ...state, some_user: Object.assign(state.some_user, {isFetching: true}) };
+        case GET_USER_INFO_SUCCESS:
+            return {
+                ...state,
+                some_user: Object.assign(state.some_user, {
+                    isFetching: false,
+                    data: action.payload
+                }) 
+            };
+        case GET_USER_INFO_FAIL:
+            return {
+                ...state,
+                some_user: Object.assign(state.some_user, {
+                    isFetching: false,
+                    error: action.payload
+                }) 
             };
         default:
             return state;

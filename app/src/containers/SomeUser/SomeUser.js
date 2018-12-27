@@ -11,9 +11,11 @@ import * as overlayActions from '../../actions/OverlayActions';
 class SomeUserContainer extends Component {
   componentDidMount() {
     const { getWhishes } = this.props.pageActions;
+    const { getUserInfo } = this.props.userActions;
     const { id } = this.props.match.params;
 
     getWhishes(id);
+    getUserInfo(id);
   }
 
   render() {

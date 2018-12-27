@@ -5,17 +5,17 @@ import { Skeleton, Card, Avatar } from 'antd';
 const { Meta } = Card;
 
 export default (props) => {
-  const { isFetching, user_info } = props.user;
-  const { firstname, lastname } = user_info;
+  const { isFetching, data } = props.user;
+  const { firstname, lastname, avatar, description } = data || {};
 
   return (
     <div className="user-info">
       <Card>
         <Skeleton loading={isFetching} avatar active>
           <Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            avatar={<Avatar shape="square" size={64} src={avatar} icon={!avatar ? 'user' : undefined} />}
             title={`${firstname} ${lastname}`}
-            description="This is the description"
+            description={description}
           />
         </Skeleton>
       </Card>

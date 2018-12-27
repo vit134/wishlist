@@ -14,6 +14,47 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAIL = 'LOGOUT_FAIL';
 
+export const GET_USER_INFO_REQUEST = 'GET_USER_INFO_REQUEST';
+export const GET_USER_INFO_SUCCESS = 'GET_USER_INFO_SUCCESS';
+export const GET_USER_INFO_FAIL = 'GET_USER_INFO_ERROR';
+
+export function getUserInfo(user) {
+    return function (dispatch) {
+        dispatch({
+            type: GET_USER_INFO_REQUEST
+        });
+
+        return fetch(`http://localhost:8888/user-info${user ? `?user=${user}` : ''}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include'
+        })
+            .then(res => {
+                //console.log('res', res)
+                return res.json()
+            })
+            .then(data => {
+                //console.log('success', data);
+                dispatch({
+                    type: GET_USER_INFO_SUCCESS,
+                    payload: data
+                });
+
+                return data;
+            })
+            .catch(e => {
+                //console.log('error', e);
+                return dispatch({
+                    type: GET_USER_INFO_FAIL,
+                    error: true,
+                    payload: e
+                });
+            });
+    };
+}
+
 export function checkLogin() {
     return function(dispatch) {
         dispatch({

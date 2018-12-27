@@ -3,27 +3,39 @@ import UserInfo from '../UserInfo/UserInfo';
 
 import './some-user.css';
 
-import { Spin, List, Avatar } from 'antd';
+import { Spin, List, Avatar, Checkbox } from 'antd';
 
 export default class Page extends Component {
+  onAssign = (e) => {
+    console.log(e.target.checked)
+  }
   render() {
     const { isFetching } = this.props.page;
-    const userWishes = this.props.page.data.body;
 
     return (
       <div className="ib some-user">
         <div className="some-user__container">
-          <UserInfo {...this.props}/>
+          <UserInfo user={this.props.user.some_user}/>
           <Spin spinning={isFetching}>
             <List
               itemLayout="horizontal"
               dataSource={this.props.page.data.body}
               renderItem={item => (
-                <List.Item>
+                <List.Item
+                  actions={[
+                    item.assigned ? <span>{item.assigned}</span> : <Checkbox onChange={this.onAssign} />
+                  ]}
+                  style={{padding: '15px 24px'}}
+                >
                   <List.Item.Meta
-                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                    avatar={<Avatar
+                      src={item.image && `http://localhost:8888/${item.image.replace('./uploads/', '')}`}
+                      icon={!item.image && 'picture'}
+                      shape="square"
+                      size={64}
+                    />}
                     title={<a href={item.link}>{item.name}</a>}
-                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                    description={item.description}
                   />
                 </List.Item>
               )}
