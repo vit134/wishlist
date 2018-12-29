@@ -11,6 +11,7 @@ var LocalStrategy = require('passport-local').Strategy;
 const PORT = 8888;
 
 var routes = require('./app/routes/index');
+var suggest = require('./app/routes/suggest');
 var wishes = require('./app/routes/wishes');
 //var users = require('./app/routes/users');
 
@@ -51,6 +52,7 @@ app.set('view engine', 'jade');
 
 
 app.use('/', routes);
+app.use('/', suggest);
 
 // passport config
 var Account = require('./app/models/account');

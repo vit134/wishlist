@@ -1,0 +1,44 @@
+.profile-settings__container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.profile-settings__col_left {
+  padding: 20px 15px 20px 0 !important;
+  border-right: 1px solid #e8e8e8;
+}
+
+.profile-settings__col_right {
+  
+  padding: 20px 0 20px 15px !important;
+}
+
+.profile-settings__avatar {
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-settings__avatar-img {
+  max-width: 100%;
+}
+
+.profile-settings__avatar-edit {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  color: #1890ff;
+}
+
+.profile-settings__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
