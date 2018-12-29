@@ -7,8 +7,11 @@ var Account = new Schema({
     password: String,
     firstname: String,
     lastname: String,
-    online: Boolean,
-    last_login: Date
+    email: String,
+    online: {type: Boolean, default: false},
+    last_login: Date,
+    was_register: { type: Date, default: Date.now },
+    is_activate: { type: Boolean, default: false }
 });
 
 Account.plugin(passportLocalMongoose);

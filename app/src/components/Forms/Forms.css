@@ -112,13 +112,21 @@
 	width: 100%
 }
 
+.form__card {
+	max-width: 340px;
+}
 
-.login-form {
+.form__button {
+  width: 100%;
+}
+
+.login-form,
+.registration-form {
   max-width: 300px;
 }
+
 .login-form-forgot {
   float: right;
 }
-.login-form-button {
-  width: 100%;
-}
+
+

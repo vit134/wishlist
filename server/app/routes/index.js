@@ -8,27 +8,26 @@ var util = require('util');
 var fs = require('fs');
 var mongoose = require('mongoose');
 
-var moveFile = require('../utils');
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'vit134256@gmail.com',
+        pass: '134134134Vit'
+    }
+});
+
+const Utils = require('../utils');
+
+var moveFile = Utils.moveFile;
+var sendMail = Utils.sendMail;
 
 router.post('/images', function (req, res) {
     var form = new formidable.IncomingForm();
 
     form.parse(req, function (err, fields, files) {
         var tmpPath = files.file.path;
-        /* var newPath = './uploads/' + files.file.name;
-        
-        var readStream = fs.createReadStream(oldPath);
-        var writeStream = fs.createWriteStream(newPath);
-
-        readStream.on('error', (e) => console.log('readStream error', e));
-        writeStream.on('error', (e) => console.log('writeStream error', e));
-
-        readStream.on('close', function () {
-            fs.unlink(oldPath, () => console.log('unlink success'));
-        });
-
-        readStream.pipe(writeStream); */
-
         res.send({ tmpPath })
     });
 });
@@ -44,21 +43,6 @@ router.delete('/images', function (req, res) {
 });
 
 router.get('/', function (req, res) {
-    /* let path = "./uploads";
-
-    fs.lstat(path, (err, stats) => {
-
-        if (err)
-            return console.log(err); //Handle error
-
-        console.log(`Is file: ${stats.isFile()}`);
-        console.log(`Is directory: ${stats.isDirectory()}`);
-        console.log(`Is symbolic link: ${stats.isSymbolicLink()}`);
-        console.log(`Is FIFO: ${stats.isFIFO()}`);
-        console.log(`Is socket: ${stats.isSocket()}`);
-        console.log(`Is character device: ${stats.isCharacterDevice()}`);
-        console.log(`Is block device: ${stats.isBlockDevice()}`);
-    }); */
     res.render('index', { user : req.user });
 });
 
@@ -67,17 +51,40 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-	var {username, password, firstname, lastname} = req.body;
+    var {username, password, email} = req.body;
+    var mailOptions = {
+        from: 'vit134256@gmail.com',
+        to: email,
+        subject: 'Activation code',
+        text:
+            `Hello dear ${username},
+            for activate your account go to the link 
+            http://localhost:8888/activate?user=${username}`
+    };
 
-    Account.register(new Account({ username, firstname, lastname  }), password, function(error, account) {
-        if (error) {
-			return res.send({status: 'error', error, account})
-        }
+    sendMail(mailOptions)
+        .then(() => {
+            Account.register(new Account({ username, email }), password, function (error, account) {
+                if (error) {
+                    return res.status(400).send({ status: 'error', error, account })
+                }
 
-        passport.authenticate('local')(req, res, function () {
-            res.send({status: 'success', user: req.user})
-        });
-    });
+                passport.authenticate('local')(req, res, function () {
+                    res.send({ status: 'success', user: req.user })
+                });
+            });
+        })
+        .catch(e => res.status(400).send({error: e, code: 'not_send_mail'}))
+});
+
+router.get('/activate', function (req, res) {
+    const { user } = req.query;
+    
+    Account.findOne({ username: user })
+        .then(account => {
+            account.set({ is_activate: true, online: true, last_login: new Date() })
+            account.save().then((data) => res.send(data));
+        })
 });
 
 router.get('/login', function(req, res) {
