@@ -5,7 +5,7 @@ import './some-user.css';
 
 import { Spin, List, Avatar, Checkbox } from 'antd';
 
-export default class Page extends Component {
+export default class SomeUserComponent extends Component {
   onAssign = (e) => {
     console.log(e.target.checked)
   }
@@ -35,7 +35,7 @@ export default class Page extends Component {
                       size={64}
                     />}
                     title={<a href={item.link}>{item.name}</a>}
-                    description={item.description}
+                    description={item.last_login && `Last login: ${item.last_login}`}
                   />
                 </List.Item>
               )}

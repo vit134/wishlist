@@ -1,0 +1,8 @@
+.user-info__online {
+  display: flex;
+  align-items: center;
+}
+
+.user-info__online > span {
+  margin-left: 5px;
+}
