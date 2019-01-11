@@ -53,8 +53,7 @@ export default class List extends React.Component {
 			onChange: this.onSelectChange,
 		};
 		const { toggleOverlay } = this.props.overlayActions;
-		const { addWish } = this.props.pageActions
-		console.log(this.props.page.data.body)
+		const { addWish } = this.props.pageActions;
 		return (
 			<div className="list">
 				<Table
@@ -131,6 +130,7 @@ export default class List extends React.Component {
 					<Column
 						title='Assigned'
 						dataIndex='assigned'
+						sorter={(a, b) => a.assigned.length - b.assigned.length}
 						render={(assign, data) => {
 								return (
 									<Checkbox
