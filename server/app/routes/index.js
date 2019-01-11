@@ -83,12 +83,45 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
+    var query = {
+        'username': req.user.username
+    };
+    var update = {
+        last_login: Date.now(),
+        online: true
+    };
+    var options = {
+        new: true
+    };
+    Account.findOneAndUpdate(query, update, options, function (err, user) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    // if login is successfull, the following message will be displayed
 	res.send({user: req.user});
 });
 
 router.get('/logout', function(req, res) {
+    var query = {
+        'username': req.user.username
+    };
+
     req.logout();
-    res.send({user: req.user})
+
+    var update = {
+        last_login: Date.now(),
+        online: false
+    };
+    var options = {
+        new: true
+    };
+    Account.findOneAndUpdate(query, update, options, function (err, user) {
+        if (err) {
+            console.log(err);
+        }
+        res.send({ user: req.user })
+    });
 });
 
 router.get('/user-info', function(req, res) {
