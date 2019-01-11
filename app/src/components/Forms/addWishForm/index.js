@@ -1,6 +1,4 @@
-import React from 'react'
-
-//import ImageUpload from './imageUpload';
+import React from 'react';
 import '../Forms.css'
 
 import { Form, Input, Card, Select, Button, Upload, Icon, message } from 'antd'; 
@@ -21,17 +19,6 @@ const localProps = {
 	name: 'file',
 	action: 'http://localhost:8888/images',
 	credentials: 'include',
-	/* onChange(info) {
-		console.log('info', info)
-		if (info.file.status !== 'uploading') {
-			//console.log(info.file, info.fileList);
-		}
-		if (info.file.status === 'done') {
-			message.success(`${info.file.name} file uploaded successfully`);
-		} else if (info.file.status === 'error') {
-			message.error(`${info.file.name} file upload failed.`);
-		}
-	}, */
 	onRemove: (file) => {
 		console.log('file on remove', file);
 		const { tmpPath } = file.response;
@@ -175,16 +162,32 @@ class AddWishForm extends React.Component {
 					</FormItem>
 					<FormItem {...formItemLayout} label="Тэги">
 						{
-							getFieldDecorator('tags')
-								(<Select
+							getFieldDecorator('tags')(
+								<Select
 									showArrow={!this.state.tagsLoading}
 									loading={this.state.tagsLoading}
 									mode="multiple"
 								>
-									<Select.Option value="lucy">Lucy</Select.Option>
-									<Select.Option value="lucy1">Lucy</Select.Option>
-									<Select.Option value="lucy2">Lucy</Select.Option>
-								</Select>)
+									<Select.Option value="tag1">Tag1</Select.Option>
+									<Select.Option value="tag2">Tag2</Select.Option>
+									<Select.Option value="tag3">Tag3</Select.Option>
+								</Select>
+							)
+						}
+					</FormItem>
+					<FormItem {...formItemLayout} label="Категории">
+						{
+							getFieldDecorator('category')(
+								<Select
+									showArrow={!this.state.tagsLoading}
+									loading={this.state.tagsLoading}
+									mode="multiple"
+								>
+									<Select.Option value="category1">Category1</Select.Option>
+									<Select.Option value="category2">Category2</Select.Option>
+									<Select.Option value="category3">Category3</Select.Option>
+								</Select>
+							)
 						}
 					</FormItem>
 					<FormItem wrapperCol={{ xs: {span: 24 }, sm: {span: 8, offset: 8 }}}>

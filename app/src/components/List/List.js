@@ -54,7 +54,7 @@ export default class List extends React.Component {
 		};
 		const { toggleOverlay } = this.props.overlayActions;
 		const { addWish } = this.props.pageActions
-
+		console.log(this.props.page.data.body)
 		return (
 			<div className="list">
 				<Table
@@ -118,6 +118,14 @@ export default class List extends React.Component {
 						render={tags => {
 								return <Tags tags={tags} />
 							}
+						}
+					/>
+					<Column
+						title='Category'
+						dataIndex='category'
+						render={category => {
+							return <Tags tags={category} />
+						}
 						}
 					/>
 					<Column

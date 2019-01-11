@@ -176,6 +176,7 @@ router.get('/wishes', function (req, res) {
 });
 
 router.post('/wishes', async function (req, res) {
+    console.log(req.body)
     let body = {
         ...req.body,
         userId: String(req.user._id),
