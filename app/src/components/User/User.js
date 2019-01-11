@@ -20,10 +20,7 @@ class User extends React.Component {
   }
 
   logoutHandler = () => {
-    this.props.userActions.logout()
-      .then(() => {
-        this.props.history.push('/');
-      })
+    this.props.userActions.logout();
   }
 
   popoverContent = () => {
