@@ -42,3 +42,13 @@
   border-bottom: 1px solid #e8e8e8;
 }
 
+.profile-settings__submit {
+  display: flex !important;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.profile-settings .form__button {
+  width: 100px;
+}
+

@@ -9,19 +9,25 @@ const TabPane = Tabs.TabPane;
 
 export default class Page extends Component {
     render() {
-        const { isFetching } = this.props.page;
+        const pageFetching = this.props.page.isFetching;
+        const userFetching = this.props.user.isFetching;
+
         return (
             <div className="ib profile">
-                <Spin spinning={isFetching} wrapperClassName="profile__container">
-                    <Tabs activeKey={'2'} tabBarStyle={{display: 'flex', justifyContent: 'flex-end'}}>
+                <div className="profile__container">
+                    <Tabs tabBarStyle={{display: 'flex', justifyContent: 'flex-end'}}>
                         <TabPane tab="Wishes" key="1">
-                            <List {...this.props} />
+                            <Spin spinning={pageFetching} wrapperClassName="profile__container">
+                                <List {...this.props} />
+                            </Spin>
                         </TabPane>
                         <TabPane tab="Settings" key="2">
-                            <Settings {...this.props} />
+                            <Spin spinning={userFetching} wrapperClassName="profile__container">
+                                <Settings {...this.props} />
+                            </Spin>
                         </TabPane>
                     </Tabs>
-                </Spin>
+                </div>
             </div>
         );
     }

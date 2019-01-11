@@ -4,23 +4,14 @@ var Account = require('../models/account');
 var Wishes = require('../models/wishes');
 var router = express.Router();
 var formidable = require('formidable');
-var util = require('util');
 var fs = require('fs');
 var mongoose = require('mongoose');
 
 var nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'vit134256@gmail.com',
-        pass: '134134134Vit'
-    }
-});
-
 const Utils = require('../utils');
 
-var moveFile = Utils.moveFile;
+var moveFile = Utils.renameFile;
 var sendMail = Utils.sendMail;
 
 router.post('/images', function (req, res) {

@@ -3,46 +3,19 @@ import React, { Component } from 'react';
 import './ProfileSettings.css';
 
 import {
-  Form, Input, List, DatePicker, Row, Col, Checkbox, Button, AutoComplete,
+  Form, Input, List, DatePicker, Row, Col, Button, AutoComplete,
 } from 'antd';
 
 const Option = AutoComplete.Option;
 
-const listData = [
-  {
-    title: 'Wishes',
-    action: ['23']
-  },
-  {
-    title: 'Assigned',
-    action: ['12']
-  },
-  {
-    title: 'Not assigned',
-    action: ['11']
-  },
-]
-
 class CustomSelect extends React.Component {
-  /* prepareData = () => {
-    console.log(this.props.placeholder, this.props.data);
-    return this.props.data.map(item => {
-      return (
-        <Option key={item.country_code} value={item.country_code}>
-          {item.country_name}
-        </Option>
-        )
-      }
-    )
-  } */
-
   render() {
     return (
       <AutoComplete
         style={{ width: '100%' }}
         size="large"
         dataSource={this.props.prepareData()}
-        placeholder={this.props.placeholder || 'Country'}
+        placeholder={this.props.placeholder || ''}
         onSelect={this.props.onSelect}
         filterOption={(inputValue, option) => {
           return option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
@@ -61,6 +34,9 @@ class ProfileSettings extends Component {
     cities: [],
     selectedCity: null,
     citiesFetching: false,
+    totalWishes: null,
+    assignedWishes: null,
+    notAssignedWishes: null
   }
 
   prepareCountryData = () => {
@@ -75,13 +51,11 @@ class ProfileSettings extends Component {
   }
 
   prepareCityData = () => {
-    return this.state.cities.map(item => {
-      return (
+    return this.state.cities.map(item => (
         <Option key={item.id} value={item.label}>
           {item.label}
         </Option>
       )
-    }
     )
   }
 
@@ -134,17 +108,49 @@ class ProfileSettings extends Component {
   }
 
   componentDidMount() {
+    const { form } = this.props;
+
     if (this.state.countries.length === 0) {
       this.getCountries();
+    }
+
+    form.setFieldsValue(this.props.user.user_info);
+
+    this.getCountWishes();
+  }
+
+  getCountWishes = () => {
+    const wishes = this.props.page.data.body;
+
+    if (wishes && wishes.length) {
+      const totalWishes = wishes.length;
+      const assignedWishes = wishes.filter(el => el.assigned).length;
+      const notAssignedWishes = totalWishes - assignedWishes;
+
+      this.setState({
+        totalWishes,
+        assignedWishes,
+        notAssignedWishes
+      })
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { form } = this.props;
+   
+    form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of login-form: ', values);
+      }
+    });
   }
 
-  onSelectHandler = (value, option) => {
-    this.setState({citiesFetching: true})
+  onSelectCountryHandler = (value, option) => {
+    const { form } = this.props;
+    form.setFieldsValue({country: value})
+    this.setState({ citiesFetching: true })
+
     this.getCities(value)
       .then((data) => {
         this.setState({
@@ -155,8 +161,28 @@ class ProfileSettings extends Component {
       })
   }
 
+  onSelectCityHandler = (value) => {
+    const { form } = this.props;
+    form.setFieldsValue({ city: value })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { firstname, lastname } = this.props.user.user_info;
+    const listData = [
+      {
+        title: 'Wishes',
+        action: [this.state.totalWishes]
+      },
+      {
+        title: 'Assigned',
+        action: [this.state.assignedWishes]
+      },
+      {
+        title: 'Not assigned',
+        action: [this.state.notAssignedWishes]
+      },
+    ];
 
     return (
       <div className="profile-settings">
@@ -187,12 +213,14 @@ class ProfileSettings extends Component {
               />
             </Col>
             <Col span={18} className="profile-settings__col_right">
-              <Row>
-                <div className="profile-settings__title">
-                  <span>Виталий Андрюшков</span>
-                  <Button icon="edit" />
-                </div>
-              </Row>
+              { firstname && lastname &&
+                <Row>
+                  <div className="profile-settings__title">
+                    <span>{`${firstname} ${lastname}`}</span>
+                    <Button icon="edit" />
+                  </div>
+                </Row>
+              }
               <Row gutter={30}>
                 <Col span={12}>
                   <Form.Item label="E-mail">
@@ -230,7 +258,7 @@ class ProfileSettings extends Component {
                   <Form.Item label="Country">
                     {getFieldDecorator('country')(
                       <CustomSelect
-                        onSelect={this.onSelectHandler}
+                        onSelect={this.onSelectCountryHandler}
                         data={this.state.countries}
                         placeholder="Country"
                         prepareData={this.prepareCountryData}
@@ -242,7 +270,7 @@ class ProfileSettings extends Component {
                   <Form.Item label="City">
                     {getFieldDecorator('city')(
                       <CustomSelect
-                        onSelect={this.onSelectHandler}
+                        onSelect={this.onSelectCityHandler}
                         data={this.state.cities}
                         placeholder="City"
                         prepareData={this.prepareCityData}
@@ -250,6 +278,11 @@ class ProfileSettings extends Component {
                     )}
                   </Form.Item>
                 </Col>
+              </Row>
+              <Row className="profile-settings__submit">
+                <Button type="primary" htmlType="submit" className="form__button">
+                  Send
+                </Button> 
               </Row>
             </Col>
           </Row>

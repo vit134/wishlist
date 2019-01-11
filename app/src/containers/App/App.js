@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
-import { Layout, Button } from 'antd';
+import { Layout } from 'antd';
 
 import User from '../../components/User/User';
 import Overlay from '../../components/Overlay/Overlay';
@@ -37,10 +37,17 @@ class App extends Component {
                     </Header>
                     <Content>
                         <div className="container">
-                            <Route path="/profile" render={props => <Profile {...props} {...this.props} />} />
+                            <Route
+                                path="/profile"
+                                render={props => {
+                                    return this.props.user.isLogin
+                                        ? <Profile {...props} {...this.props} />
+                                        : <Redirect to={{ pathname: "/", state: { from: props.location }}}/>
+                                }}
+                            />
                             <Route path="/user/:id" render={props => <SomeUser {...props} {...this.props} />} />
                         </div>
-                    </Content>,
+                    </Content>
                     <Overlay { ...this.props}/>
                 </Layout>
             </Router>
