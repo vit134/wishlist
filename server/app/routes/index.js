@@ -186,6 +186,8 @@ router.post('/wishes', async function (req, res) {
     if (req.body.image) {
         let name = await moveFile(req.body.image[0].response.tmpPath, req.body.image[0]);
         body.image = name;
+    } else if (req.body['image-link']) {
+        body.image = req.body['image-link'];
     }
     
     item = new Wishes({...body})

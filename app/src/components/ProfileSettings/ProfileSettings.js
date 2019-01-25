@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { SERVER_URL } from '../../config/urls';
 
 import './ProfileSettings.css';
 
@@ -61,7 +62,7 @@ class ProfileSettings extends Component {
 
   getCountries = () => {
     this.setState({ countriesFetching : true})
-    return fetch(`http://localhost:8888/countries`, {
+    return fetch(`${SERVER_URL}/countries`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -85,7 +86,7 @@ class ProfileSettings extends Component {
 
   getCities = (code) => {
     this.setState({ citiesFetching: true })
-    return fetch(`http://localhost:8888/cities?country_code=${code}`, {
+    return fetch(`${SERVER_URL}/cities?country_code=${code}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

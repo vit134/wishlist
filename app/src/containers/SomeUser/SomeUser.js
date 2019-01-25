@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import SomeUser from '../../components/SomeUser/SomeUser';
+import { Spin } from 'antd';
+
+import UserInfo from '../../components/UserInfo/UserInfo';
+import SomeUserTable from './SomeUserTable';
+import './some-user.css';
 
 import * as userActions from '../../actions/UserActions';
 import * as pageActions from '../../actions/PageActions';
@@ -19,7 +23,25 @@ class SomeUserContainer extends Component {
   }
 
   render() {
-    return <SomeUser {...this.props} />
+    const { isFetching } = this.props.page;
+
+    return (
+      <div className="ib some-user">
+        <div className="some-user__container">
+          <div className="some-user__user-info">
+            <UserInfo user={this.props.user.some_user} />
+          </div>
+          <div className="some-user__table">
+            <Spin spinning={isFetching}>
+              <SomeUserTable
+                data={this.props.page.data.body}
+                {...this.props}
+              />
+            </Spin>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

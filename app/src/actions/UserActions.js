@@ -1,3 +1,5 @@
+import { SERVER_URL } from '../config/urls';
+
 export const IS_LOGIN_REQUEST = 'IS_LOGIN_REQUEST';
 export const IS_LOGIN_SUCCESS = 'IS_LOGIN_SUCCESS';
 export const IS_LOGIN_FAIL = 'IS_LOGIN_FAIL';
@@ -24,7 +26,7 @@ export function getUserInfo(user) {
             type: GET_USER_INFO_REQUEST
         });
 
-        return fetch(`http://localhost:8888/user-info${user ? `?user=${user}` : ''}`, {
+        return fetch(`${SERVER_URL}/user-info${user ? `?user=${user}` : ''}`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -61,7 +63,7 @@ export function checkLogin() {
             type: IS_LOGIN_REQUEST
         });
 
-        return fetch(`http://localhost:8888/login`, {
+        return fetch(`${SERVER_URL}/login`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -98,7 +100,7 @@ export function registration(data) {
             type: REG_REQUEST
         });
 
-        return fetch(`http://localhost:8888/register`, {
+        return fetch(`${SERVER_URL}/register`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -134,7 +136,7 @@ export function login(data) {
             type: REG_REQUEST
         });
 
-        return fetch(`http://localhost:8888/login`, {
+        return fetch(`${SERVER_URL}/login`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -172,7 +174,7 @@ export function logout() {
             type: LOGOUT_REQUEST
         });
 
-        return fetch(`http://localhost:8888/logout`, {
+        return fetch(`${SERVER_URL}/logout`, {
             method: 'GET',
             headers: {
 				'Content-Type': 'application/json'

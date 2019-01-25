@@ -1,0 +1,11 @@
+.some-user__container {
+  margin-top: 20px;
+}
+
+.some-user__user-info {
+  margin-bottom: 20px;
+}
+
+.some-user__table  table td{
+  vertical-align: middle;
+}

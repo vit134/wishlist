@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 
 import User from '../../components/User/User';
 import Overlay from '../../components/Overlay/Overlay';
@@ -28,28 +28,26 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <Layout>
-                    <Header>
-                        <div className="container">
-                            <Link to="/"><Logo /></Link>
-                            <User {...this.props} />
-                        </div>
-                    </Header>
-                    <Content>
-                        <div className="container">
-                            <Route
-                                path="/profile"
-                                render={props => {
-                                    return this.props.user.isLogin
-                                        ? <Profile {...props} {...this.props} />
-                                        : <Redirect to={{ pathname: "/", state: { from: props.location }}}/>
-                                }}
-                            />
-                            <Route path="/user/:id" render={props => <SomeUser {...props} {...this.props} />} />
-                        </div>
-                    </Content>
-                    <Overlay { ...this.props}/>
-                </Layout>
+                <Spin spinning={this.props.user.isFetching}>
+                    <Layout>
+                        <Header>
+                            <div className="container">
+                                <Link to="/"><Logo /></Link>
+                                <User {...this.props} />
+                            </div>
+                        </Header>
+                        <Content>
+                            <div className="container">
+                                <Route
+                                    path="/profile"
+                                    render={props => <Profile {...props} {...this.props} />}
+                                />
+                                <Route path="/user/:id" render={props => <SomeUser {...props} {...this.props} />} />
+                            </div>
+                        </Content>
+                        <Overlay { ...this.props}/>
+                    </Layout>
+                </Spin>
             </Router>
         );
     }

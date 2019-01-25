@@ -1,4 +1,5 @@
 import React from 'react';
+import { SERVER_URL } from '../../config/urls';
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
@@ -77,7 +78,7 @@ class User extends React.Component {
           {
             is_activate &&
               <Avatar
-                src={image && `http://localhost:8888/${image.replace('./uploads/', '')}`}
+                src={image && `${SERVER_URL}/${image.replace('./uploads/', '')}`}
                 icon={!image && 'user'}
                 size={34}
               />

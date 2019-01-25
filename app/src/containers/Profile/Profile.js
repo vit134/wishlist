@@ -2,11 +2,18 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Profile from '../../components/Profile/Profile';
+
+import './profile.css';
+
+import { Spin, Tabs } from 'antd';
+import List from '../../components/List/List';
+import Settings from '../../components/ProfileSettings/ProfileSettings';
 
 import * as userActions from '../../actions/UserActions';
 import * as pageActions from '../../actions/PageActions';
 import * as overlayActions from '../../actions/OverlayActions';
+
+const TabPane = Tabs.TabPane;
 
 class ProfileContainer extends Component {
   componentDidMount() {
@@ -20,7 +27,27 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    return <Profile {...this.props} />
+    const pageFetching = this.props.page.isFetching;
+    const userFetching = this.props.user.isFetching;
+
+    return (
+      <div className="ib profile">
+        <div className="profile__container">
+          <Tabs tabBarStyle={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <TabPane tab="Wishes" key="1">
+              <Spin spinning={pageFetching} wrapperClassName="profile__container">
+                <List {...this.props} />
+              </Spin>
+            </TabPane>
+            <TabPane tab="Settings" key="2">
+              <Spin spinning={userFetching} wrapperClassName="profile__container">
+                <Settings {...this.props} />
+              </Spin>
+            </TabPane>
+          </Tabs>
+        </div>
+      </div>
+    );
   }
 }
 

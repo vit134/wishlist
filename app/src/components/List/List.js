@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { SERVER_URL } from '../../config/urls';
 import './List.css';
 
 import { Table, Checkbox, Button, Popconfirm } from 'antd';
@@ -61,6 +61,7 @@ export default class List extends React.Component {
 					dataSource={this.props.page.data.body}
 					rowKey={(bla, i) => i}
 					pagination={{ hideOnSinglePage: true }}
+					className="list__table"
 					footer={
 						() => {
 							return (
@@ -102,14 +103,17 @@ export default class List extends React.Component {
 						title='Name'
 						dataIndex='name'
 						render={(text, data) => {
-								return (
-									<div className="list__col_name">
-										{data.image && <img src={`http://localhost:8888/${data.image.replace('./uploads/', '')}`} alt={text}/>}
-										<a target="_blank" rel="noopener noreferrer" href={data.link}>{text}</a>
-									</div>
-								)
-							}
-						}
+							const imgSrc = data.image && data.image.indexOf('http') < 0
+								? `${SERVER_URL}/${data.image.replace('./uploads/', '')}`
+								: data.image;
+
+							return (
+								<div className="list__col_name">
+									{data.image && <img src={imgSrc} alt={text}/>}
+									<a target="_blank" rel="noopener noreferrer" href={data.link}>{text}</a>
+								</div>
+							)
+						}}
 					/>
 					<Column
 						title='Tags'

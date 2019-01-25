@@ -1,4 +1,5 @@
 import React from 'react';
+import { SERVER_URL } from '../../../config/urls';
 import '../Forms.css'
 
 import { Form, Input, Card, Select, Button, Upload, Icon, message } from 'antd'; 
@@ -17,13 +18,13 @@ const formItemLayout = {
 
 const localProps = {
 	name: 'file',
-	action: 'http://localhost:8888/images',
+	action: `${SERVER_URL}/images`,
 	credentials: 'include',
 	onRemove: (file) => {
 		console.log('file on remove', file);
 		const { tmpPath } = file.response;
 
-		fetch(`http://localhost:8888/images`, {
+		fetch(`${SERVER_URL}/images`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'
@@ -49,7 +50,8 @@ class AddWishForm extends React.Component {
 
 	state = {
 		tagsLoading: true,
-		loading: false
+		loading: false,
+		linkImage: false,
 	}
 
 	componentDidMount() {
@@ -96,14 +98,16 @@ class AddWishForm extends React.Component {
 	handleSubmit = (e) => {
 		e && e.preventDefault();
 
-		this.props.form.validateFields((err, values) => {
+		const { form, addWish, toggleOverlay } = this.props;
+
+		form.validateFields((err, values) => {
 			if (err) return err;
 			console.log('values on submit', values);
 			this.setState({loading: true}, () => {
-				this.props.addWish(values)
+				addWish(values)
 					.then(() => {
 						this.setState({loading: false})
-						this.props.toggleOverlay();
+						toggleOverlay();
 					})
 			})
 			
@@ -113,7 +117,8 @@ class AddWishForm extends React.Component {
 	normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
-    }
+		}
+		
     return e && e.fileList;
   }
 
@@ -121,6 +126,7 @@ class AddWishForm extends React.Component {
 
 		const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
 		const nameError = isFieldTouched('name') && getFieldError('name');
+		const { linkImage } = this.state;
 
 		return (
 			<Card className="addWishForm-card" title="Новая вишка">
@@ -141,24 +147,28 @@ class AddWishForm extends React.Component {
 							)
 						}
 					</FormItem>
-					<FormItem
-						{...formItemLayout}
-						label="Ссылка"
-					>
+					<FormItem {...formItemLayout} label="Ссылка">
 						{ getFieldDecorator('link')(<Input placeholder="Ссылка" />) }
 					</FormItem>
 					<FormItem {...formItemLayout} label="Изображение">
-						{
-							getFieldDecorator('image', {
-								valuePropName: 'fileList',
-								getValueFromEvent: this.normFile,
-							})(
-								<Upload {...this.props} {...localProps}>
-									<Button>
-										<Icon type="upload" /> Click to Upload
-									</Button>
-								</Upload>
-							)}
+						<div className="form__custom-item-control">
+							{ !linkImage 
+								? getFieldDecorator('image', {
+										valuePropName: 'fileList',
+										getValueFromEvent: this.normFile,
+									})(
+									<Upload {...this.props} {...localProps}>
+										<Button style={{width: '100%'}}>
+											<Icon type="upload" /> Click to Upload
+										</Button>
+									</Upload>
+									)
+								: getFieldDecorator('image-link')(<Input placeholder="Ссылка на картинку" />)
+							}
+							<Button onClick={() => this.setState({linkImage: !linkImage})}>
+								<Icon type={linkImage ? 'picture' : 'link'}/>
+							</Button>
+						</div>
 					</FormItem>
 					<FormItem {...formItemLayout} label="Тэги">
 						{
