@@ -7,6 +7,10 @@
     "start": "node server/server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vit134/wishlist"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
