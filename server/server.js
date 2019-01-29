@@ -8,7 +8,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-const PORT = 8888;
+const PORT = process.env.PORT || 8888;
+// const PORT = process.env || 8888;
 
 var routes = require('./app/routes/index');
 var suggest = require('./app/routes/suggest');
