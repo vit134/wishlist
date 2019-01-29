@@ -2,7 +2,10 @@
   "name": "wishlist",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/server.js",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "start": "node server/server",
     "test": "echo \"Error: no test specified\" && exit 1"
