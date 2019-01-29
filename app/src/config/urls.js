@@ -1,1 +1,1 @@
-export const SERVER_URL = 'http://localhost:8888';
+export const SERVER_URL = 'https://vit134-wishlist.herokuapp.com';
